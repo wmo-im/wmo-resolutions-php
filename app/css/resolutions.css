@@ -1,0 +1,156 @@
+/* CSS OPACHE database */
+
+body{
+margin:0;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+/*background-image:url(../images/pattern_062.gif);
+background-repeat:repeat;*/
+
+}
+h1
+{
+	font-size:14px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+h2{
+font-size:12px;
+font-weight: bold;
+margin:5px 0;
+}
+
+h3{
+font-size:12px;
+margin:5px 0;
+
+}
+a{
+text-decoration:none;
+}
+a:hover{
+color:#FF6600;
+text-decoration:none;
+}
+
+#wrapper
+{
+margin:0 auto;
+width:95%;	
+max-width:1000px;
+/*height:auto;*/
+
+}
+
+#header {
+	border: 1px solid #fff;
+	width: 100%;
+	height:105px;
+	margin-bottom: 20px;
+	
+	
+}
+#search
+{
+width:100%;
+height:auto;
+padding: 10px;
+margin-top: 10px;
+/*border:1px solid #3D3D3D;
+border-radius: 5px;
+ -moz-border-radius: 5px;
+ -webkit-border-radius: 5px;
+ box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+    -moz-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+    -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+*/	
+
+}
+
+
+#search h1
+{
+float: left;
+font-size: 28px;
+color: #00529c;
+margin:50px 0 50px 50px;
+	
+}
+
+
+ #part1, #part2, #part3, #part4   {
+	
+width:99%;
+height:auto;
+padding: 5px;
+/*margin-top: 10px;*/
+margin-bottom:15px;	 
+border:1px solid #3D3D3D;
+border-radius: 5px;
+box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+-webkit-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+-moz-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+}
+#part1 ,#part3, #part4
+{
+min-height: 70px;
+}
+
+#part1 #Body , #part1 #WMOSession, #part1 #Instrument, #part1 #Addressee, #part1 #Ecdeadline,
+#part2 #ECS, #part2 #ECstatus
+{	
+float: left;
+margin-right: 10px;		
+}
+#part2 #ECS, #part2 #ECstatus
+{
+	max-width: 50%;
+}
+#part2 #ECstatus
+{
+	float: right;
+	
+}
+
+#part4 #p4-kw, #part4 #p4-year
+{
+/*float:left;	*/
+width:50%;
+float:left;	
+}
+
+#part4 #p4-kw
+{
+	
+}
+#part4 #p4-year
+{
+	
+}
+
+
+#results
+{
+width:99%;
+min-height:100px;
+margin: 20px 0 0 0;
+padding: 10px;
+border:1px solid #3D3D3D;
+	border-radius: 5px;
+ -moz-border-radius: 5px;
+ -webkit-border-radius: 5px;
+ box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+    -moz-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+    -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+}
+#details{
+width:95%;
+border:1px solid #3D3D3D;
+margin: 5px 0 0 0;
+padding: 10px;
+
+	
+}
+
+/**/

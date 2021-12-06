@@ -1,0 +1,15 @@
+name: actions 
+on: [ push, pull_request]
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker-compose build
+      run: docker-compose build
+    - name: docker-compose up
+      run: |
+          docker-compose up -d
+    - name: grep Hurray
+      run: |
+        curl -s localhost:8080 | grep Error
