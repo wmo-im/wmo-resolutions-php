@@ -10,6 +10,19 @@ jobs:
     - name: docker-compose up
       run: |
           docker-compose up -d
-    - name: grep Hurray
-      run: |
-        curl -s localhost:8080 | grep Error
+          sleep 10
+          docker ps
+    - name: grep "Error"
+      run: | 
+        if curl -s localhost:8080 | grep -q "Error" ; then
+          docker logs resolutions-php_web_1
+          docker logs resolutions-php_db_1
+          exit 1 
+        fi
+    - name: grep "Failed to connect to MySQL"
+      run: | 
+        if curl -s localhost:8080 | grep -q "Failed to connect to MySQL" ; then
+          docker logs resolutions-php_web_1
+          docker logs resolutions-php_db_1
+          exit 1 
+        fi
