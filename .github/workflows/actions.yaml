@@ -7,32 +7,36 @@ jobs:
     - uses: actions/checkout@v2
     - name: docker-compose build
       run: docker-compose build
-    - name: docker-compose up
+    - name: docker-compose up (plus sleep)
       run: |
-          docker-compose up -d
-          sleep 10
-          docker ps
-    - name: empty DB and run init.sql, when DB is empty
+        docker-compose up -d
+        sleep 10
+        docker ps
+    - name: setup ENV for tests
+      run: |
+        export $(cat env_test | xargs)
+        export WMORESOLUTIONS_DB=$MYSQL_DATABASE
+        export WMORESOLUTIONS_HOST=127.0.0.1
+        export WMORESOLUTIONS_PWD=$MYSQL_PASSWORD
+        export WMORESOLUTIONS_USER=$MYSQL_USER
+    - name: empty DB and run init.sql, empty DB and run init.sql
       run: |
         source empty_db.sh
-        env $(cat env_test | xargs) mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=localhost $WMORESOLUTIONS_DB < init.sql
-    - name: empty DB and run init.sql, when DB not empty
-      run: |
+        mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
         source empty_db.sh
-        env $(cat env_test | xargs) mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=localhost $WMORESOLUTIONS_DB < init.sql
-    - name: curl 8080 and check for "Error"
+        mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
+    - name: check web-output looks correct
       run: | 
-        if curl -s localhost:8080 | grep -q "Error" ; then
+        curl -s localhost:8080 /tmp/output.html
+        if cat /tmp/output.html | grep -q "Error" ; then
           echo "Error detected in web-output"
-          docker logs wmo-resolutions-php_web_1
-          docker logs wmo-resolutions-php_db_1
           exit 1 
         fi
-    - name: curl 8080 and check for "Failed to connect to MySQL"
-      run: | 
-        if curl -s localhost:8080 | grep -q "Failed to connect to MySQL" ; then
+        if cat /tmp/output.html | grep -q "Failed to connect to MySQL" ; then
           echo "Failed  MySQL detected in web-output"
-          docker logs wmo-resolutions-php_web_1
-          docker logs wmo-resolutions-php_db_1
           exit 1 
+        fi
+        if (( $(cat /tmp/output.html | grep -c '</option>') < 100 )); then
+          echo "Number of generated option-tags < 100, seems suspiciously low"
+          exit 1
         fi
