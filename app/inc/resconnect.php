@@ -14,6 +14,10 @@ $mysqli = new mysqli($host,$username,$password,$database);
 
 // Check connection
 if ($mysqli -> connect_errno) {
+  echo "MYSQL-ERRNO ".$mysqli -> connect_errno;
+  echo "username: ".$username;
+  echo "host: ".$host;
+  echo "database: ".$database;
   echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
   exit();
 }
