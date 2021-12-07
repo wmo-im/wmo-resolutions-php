@@ -16,7 +16,6 @@ services:
       - 3306
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - env_test
 volumes:

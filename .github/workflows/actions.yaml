@@ -12,17 +12,27 @@ jobs:
           docker-compose up -d
           sleep 10
           docker ps
-    - name: grep "Error"
+    - name: empty DB and run init.sql, when DB is empty
+      run: |
+        docker exec wmo-resolutions-php_web_1 source empty_db.sh
+        docker exec wmo-resolutions-php_web_1 mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
+    - name: empty DB and run init.sql, when DB not empty
+      run: |
+        docker exec wmo-resolutions-php_web_1 source empty_db.sh
+        docker exec wmo-resolutions-php_web_1 mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
+    - name: curl 8080 and check for "Error"
       run: | 
         if curl -s localhost:8080 | grep -q "Error" ; then
-          docker logs resolutions-php_web_1
-          docker logs resolutions-php_db_1
+          echo "Error detected in web-output"
+          docker logs wmo-resolutions-php_web_1
+          docker logs wmo-resolutions-php_db_1
           exit 1 
         fi
-    - name: grep "Failed to connect to MySQL"
+    - name: curl 8080 and check for "Failed to connect to MySQL"
       run: | 
         if curl -s localhost:8080 | grep -q "Failed to connect to MySQL" ; then
-          docker logs resolutions-php_web_1
-          docker logs resolutions-php_db_1
+          echo "Failed  MySQL detected in web-output"
+          docker logs wmo-resolutions-php_web_1
+          docker logs wmo-resolutions-php_db_1
           exit 1 
         fi
