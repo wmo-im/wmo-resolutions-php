@@ -14,12 +14,12 @@ jobs:
           docker ps
     - name: empty DB and run init.sql, when DB is empty
       run: |
-        docker exec wmo-resolutions-php_web_1 source empty_db.sh
-        docker exec wmo-resolutions-php_web_1 mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
+        source empty_db.sh
+        env $(cat env_test | xargs) mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=localhost $WMORESOLUTIONS_DB < init.sql
     - name: empty DB and run init.sql, when DB not empty
       run: |
-        docker exec wmo-resolutions-php_web_1 source empty_db.sh
-        docker exec wmo-resolutions-php_web_1 mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
+        source empty_db.sh
+        env $(cat env_test | xargs) mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=localhost $WMORESOLUTIONS_DB < init.sql
     - name: curl 8080 and check for "Error"
       run: | 
         if curl -s localhost:8080 | grep -q "Error" ; then
