@@ -12,26 +12,9 @@ jobs:
         docker-compose up -d
         sleep 10
         docker ps
-    - name: empty DB and run init.sql, empty DB and run init.sql
-      run: |
-        export $(cat env_test | xargs)
-        export WMORESOLUTIONS_DB=$MYSQL_DATABASE
-        export WMORESOLUTIONS_HOST=127.0.0.1
-        export WMORESOLUTIONS_PWD=$MYSQL_PASSWORD
-        export WMORESOLUTIONS_USER=$MYSQL_USER
-        for table in `mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB -N -e 'SHOW TABLES'`; do
-          echo "DROP TABLE $table"
-          mysql --user=$WMORESOLUTIONS_USER  --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB -e "DROP TABLE $table"
-        done
-        mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
-        for table in `mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB -N -e 'SHOW TABLES'`; do
-          echo "DROP TABLE $table"
-          mysql --user=$WMORESOLUTIONS_USER  --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB -e "DROP TABLE $table"
-        done
-        mysql --user=$WMORESOLUTIONS_USER --password=$WMORESOLUTIONS_PWD --host=$WMORESOLUTIONS_HOST $WMORESOLUTIONS_DB < init.sql
     - name: check web-output looks correct
       run: | 
-        curl -s localhost:8080 /tmp/output.html
+        curl -s localhost:80 /tmp/output.html
         if cat /tmp/output.html | grep -q "Error" ; then
           echo "Error detected in web-output"
           exit 1 
