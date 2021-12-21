@@ -1,6 +1,6 @@
 MYSQL_DATABASE=ebmp_resolutions
 MYSQL_USER=ebmp_wmores
-MYSQL_PASSWORD=dontusethisinproduction!
+MYSQL_PASSWORD=testingonly
 MYSQL_RANDOM_ROOT_PASSWORD=yes
 MYSQL_HOST=db
 WMORESOLUTIONS_DB=${MYSQL_DATABASE}
