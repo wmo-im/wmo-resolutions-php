@@ -1,0 +1,53 @@
+@charset "utf-8";
+/* CSS To Print resolution database results */
+@media print { 
+ /* All your print styles go here */
+#header {font-size: 0.5em; width: 100%;	
+	}
+#search, #nav, #header .linkprogressreport { display: none !important; } 
+
+#header .logo 
+	{
+	width: 25%; /*width:300px; height: 101px;*/
+	float: left;
+	margin-right: 0px;
+	margin-bottom:10px;
+	}
+
+#header .title  
+	{
+width: 75%; /*width:300px; height: 101px;*/
+text-align: right;
+float: left;
+
+	}
+#searchresultsstats
+{
+width: 100%;
+border-bottom: 1px solid #3D3D3D;
+margin-bottom: 10px;
+	
+}
+#results {
+		
+	width: 100%;
+	float: left;
+	/*border: 1px solid #ff9900;*/
+	margin-top:10px;
+	font-size:0.8em;		
+	}	
+#details{
+width:95%;
+border-bottom:1px solid #3D3D3D;
+/*border-top:1px solid #3D3D3D;
+margin: 5px 0 0 0;*/
+padding: 5px;
+	}
+h3 {
+	margin:0px;	
+	
+font-size:1em;
+font-weight: bold;
+
+}
+}

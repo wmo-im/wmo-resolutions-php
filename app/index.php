@@ -6,14 +6,18 @@ include('inc/resconnect.php');
 <html>
 <head>
 <title>Resolutions and decisions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+	
 <link href="css/resolutions.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="css/print.css" rel="stylesheet" type="text/css"  media="print" />	
+
 </head>
 
 <body>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {	// define variables and set to empty values
-	$selbody = $selsession = $selectedInstrument = $selecteddpt = $seldivision = $selltg = $selectedso = $selectedyear = $selectedkw = "";
+	$selbody = $selsession = $selectedInstrument = $selecteddpt = $seldivision = $selltg = $selectedso = $selectedyear = $selectedkw = $selectedskw = "";
   // collect value of input fields
 	$WMObody= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Body']));
 	$WMOSession= $mysqli -> real_escape_string (htmlspecialchars ($_POST['WMOSession']));
@@ -24,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$WMOSo = $mysqli -> real_escape_string (htmlspecialchars ($_POST['So']));
 	$WMOYear = $mysqli -> real_escape_string (htmlspecialchars ($_POST['Year']));
 	$WMOKw = $mysqli -> real_escape_string (htmlspecialchars ($_POST['KeyW']));
+	$WMOSkw = $mysqli -> real_escape_string (htmlspecialchars ($_POST['Skw']));
 	
 	$selbody = $WMObody;
 	$selsession = $WMOSession;
@@ -34,29 +39,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$selectedso = $WMOSo;
 	$selectedyear = $WMOYear;
 	$selectedkw = $WMOKw;
-	
-/*	
-	if (empty($selbody)) 
-  	{
-    echo "<br/>Please select a body";
-  	}
-	 /* else if ($selbody == 1) 
-		{
-		//echo '<br/> All';
-		  echo '';
-		} */
-/*	else
-		{
-		echo '<br/> '.$selbody;
-		} */
+	$selectedskw = $WMOSkw;
+
 	
 }	
 ?>	
 <div id="wrapper">
 	<div id="header">
-	<img src="wmologo2016_fulltext_horizontal300x101_rgb_en.png" width="300" height="101" alt="" style="float: left;margin-right: 20px; margin-bottom:10px;"/><h1><br/>WMO Congress, Executive Council, Regional Associations and Technical Commissions Resolutions, Decisions and Recommendations in force</h1>
-	<em><a href="https://meetings.wmo.int/EC-73/_layouts/15/WopiFrame.aspx?sourcedoc=/EC-73/InformationDocuments/EC-73-INF08-REVIEW-OF-PREVIOUS-RESOLUTIONS_en.docx&action=default" target="_blank">Progress and recommendations for Cg-18 Resolutions as reported in EC-73/INF. 8</a></em>
-		<p><a href="requests.php">>> Requests made by the WMO Excecutive Council as from EC-73</a></p>
+		<div class="logo">	
+			<img src="wmologo2016_fulltext_horizontal300x101_rgb_en.png" width=100% alt="WMO Logo" />
+		</div>
+		<div class="title">
+		<h1>WMO Congress, Executive Council, Regional Associations and Technical Commissions Resolutions, Decisions and Recommendations in force</h1>
+		<div class="linkprogressreport">
+		<p ><em><a href="https://meetings.wmo.int/EC-73/_layouts/15/WopiFrame.aspx?sourcedoc=/EC-73/InformationDocuments/EC-73-INF08-REVIEW-OF-PREVIOUS-RESOLUTIONS_en.docx&action=default" target="_blank">Progress and recommendations for Cg-18 Resolutions as reported in EC-73/INF. 8</a></em></p>		
+		</div>	
+		</div>
+		
+	
+	</div>
+	<div id="nav">
+		<p><a href="requests.php">>> Requests made by Congress as from Cg-Ext(2021) and the Executive Council as from EC-73</a></p>
 	</div>
 	<div id="search">
 	<div id="part1">
@@ -64,9 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 <!-- ***************** Body / Session / Instrument************************ -->		
 		
 <!-- ***************** Body ************************ -->		
-		<h2>WMO Constituent Bodies, Sessions and Instruments</h2>
+		
  <!--  Name: <input type="text" name="fname">
   <input type="submit"> -->
+		<div id="body">
+		<h2>WMO Constituent Bodies</h2>
 		 <select name="Body" id="Body" onChange="submit()">
 					<option value="" > ------ Select a WMO Constituent Body ------ </option>
 					<option value="All" > All bodies</option>
@@ -81,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 						}				
 				 ?>
   		</select>	
-		
+		</div>
 <!-- *****************  END Body ************************ -->			
 <!-- ***************** Session ************************ -->
 	
@@ -104,7 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$nbresultsess = mysqli_num_rows($sess);
 
 	?>
-
+		<div id="wmosession">
+		<h2>Sessions</h2>
 	  <select name="WMOSession" id="WMOSession" onChange="submit()">
 					<option value=""> ------ Select a Session ------ </option>
 		<?php if ($nbresultsess > 1) {echo'<option value="All"> All Sessions</option>';}	else {echo '';} // if there is only 1 session after filtering we dont display all ?>
@@ -119,6 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 }
 				 ?>
   		</select>	
+		</div>
 	<!-- ***************** End Session ************************ -->	
 	
 	<!-- ***************** Instrument ************************ -->
@@ -148,7 +155,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	$nbresultinstrument = mysqli_num_rows($selInstrument);
 	?>	
-<!--	<h2>Instrument</h2>	-->
+	<div id="instrument">
+	<h2>Instruments</h2>
 	 <select name="Instrument" id="Instrument"  onChange="submit()">
 					<option value=""> ------ Select an Instrument ------ </option>
 					
@@ -164,13 +172,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 }
 				 	?> 		 			
 		 </select>
-		 
+		 </div>
 	</form>
 	</div> <!-- part 1 -->
 	<div id="part2">
 	<form method="post" action="index.php">
 	<!-- ***************** Department/Entity ************************ -->
-	<h2>Department/Entity and Unit</h2>
+	<div id="p2-dpt">
+	<h2>Departments/Entities</h2>
 
 	<?php
 	// To feed the department scroll-down menu //
@@ -190,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 }
 				 ?>
   		</select>
-	
+		</div>
 	 	<!-- ***************** Unit ************************ -->
 	<?php 	
 	// On recupere la valeur division choisi
@@ -209,7 +218,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	$nbresultdiv= mysqli_num_rows($div);
 	?>
 <!--	<h2>Unit</h2> -->
-<br/><br/>
+	<div id="p2-unit">
+	<h2>Units</h2>
 	  <select name="Division" onChange="submit()">
 					<option value=""> ------ Select a Unit ------ </option>
 		  			<!--<option value="All" selected >All units</option>
@@ -229,12 +239,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 					
 				 ?>
   		</select>
+		</div>
 	</form>
 	</div> <!-- part2 -->
 	<div id="part3">
 	<form method="post" action="index.php">
 	<!-- ***************** LTG ************************ -->
-	<h2>Long-Term Goals and Strategic Objectives</h2>
+	<div id="p3-ltg">	
+	<h2>Long-Term Goals <!--and Strategic Objectives--></h2>
 	<?php
 	// To feed the department scroll-down menu //
 	$ltg= $mysqli->query('SELECT distinct kw1 FROM resolutions7 ORDER BY kw1 ASC') or die ('Error: ' . mysqli_error($mysqli));
@@ -255,9 +267,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 }
 				 ?>
   		</select>
-	
+	</div>
 		<!-- ***************** SO ************************ -->
-<!--	<h2>Strategic Objectives</h2> -->
+	<div id="p3-so"	>
+	<h2>Strategic Objectives</h2> <!---->
 	<?php
 	// To feed the SO scroll-down menu //
 	
@@ -289,6 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 }
 				 ?>
   		</select>
+		</div>
 	</form>	
 	</div> <!-- part3 -->
 	<div id="part4">
@@ -297,10 +311,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		<div id="p4-kw">
 		<h2> Keyword  </h2>
   		<input type="text" name="KeyW" onChange="submit()" />
-			&nbsp;<a href="Cg-EC-RAs-TCs-resolutions_decisions_and_recommendations_in_force_23.IX.2021_List-of-keywords.pdf" target="_blank">List of suggested keywords</a> 
+			
 		</div>
 		
   <!--////////////////////////// END SELECTION KEYWORD ////////////////////////////// -->	
+<!-- ***************** Suggested Keyword************************ -->
+	<div id="p4-sugkw">
+	<h2>Suggested Keywords</h2>
+	<?php
+	// To feed the year scroll-down menu //
+	$selSkw= $mysqli->query('SELECT distinct keywords FROM keywords ORDER BY keywords ASC') or die ('Error: ' . mysqli_error($mysqli));
+	?>
+	  <select name="Skw" onChange="submit()">
+					<option value=""> ------ Select a Keyword ------ </option>
+					<option value="All"> All keywords</option>
+		<?php
+				
+					while ($theskw = mysqli_fetch_array($selSkw))
+				 {
+					?>
+					<option value="<?php echo $theskw['keywords'];?>"> <?php echo nl2br($theskw['keywords']); ?></option>
+					<?php
+				 }
+				 ?>
+  		</select>
+		</div>			
+		
 	<!-- ***************** Year ************************ -->
 	<div id="p4-year">
 	<h2>Year</h2>
@@ -325,17 +361,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	</form>	
 	</div> <!-- part4 -->	
-</div> <!-- Search -->
+	</div> <!-- Search -->
 	
  <!--////////////////////////// Results ////////////////////////////// -->	
 	<div id="results">
 		
 <?php
 		
-			/* //////////// QUERIES and RESULTS //////////////*/
+/* //////////// QUERIES and RESULTS //////////////*/
 		
-			/* //////////// QUERIES //////////////*/	
-			/* //////////// Keyword //////////////*/			
+/* //////////// QUERIES //////////////*/	
+/* //////////// Keyword //////////////*/			
 	//Only a Key Word is selected	
 		if ($selectedkw !='')  
 			{
@@ -348,9 +384,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$nbresult = mysqli_num_rows($theresult);
 
 
-		echo 'Entered keyword : <strong>'.$selectedkw.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
+		echo '<div id="searchresultsstats">Entered keyword : <strong>'.$selectedkw.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/> </div>';
 			}
+			/* //////////// suggested keywords //////////////*/
+	//Only a suggested Keywords is selected	
+	else if ($selectedskw !='' && $selectedskw !='All')  
+			{
+
+			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE reference like \'%'.$selectedskw.'%\' or title like \'%'.$selectedskw.'%\'  or content like \'%'.$selectedskw.'%\' or year like \'%'.$selectedskw.'%\' or body like \'%'.$selectedskw.'%\' or instrument like \'%'.$selectedskw.'%\' or source like \'%'.$selectedskw.'%\' or kw1 like \'%'.$selectedskw.'%\' or kw2 like \'%'.$selectedskw.'%\' or kw3 like \'%'.$selectedskw.'%\' or kw4 like \'%'.$selectedskw.'%\' or kw5 like \'%'.$selectedskw.'%\' or resp1 like \'%'.$selectedskw.'%\' or resp2 like \'%'.$selectedskw.'%\' ORDER BY year, reference2') //or die (mysql_error());	// KW in WORK , Expertise and PUBLICATIONS
+
+			or die ('Error: ' . mysqli_error($mysqli));
+
+			// Count number of results of my query
+			$nbresult = mysqli_num_rows($theresult);
+
+
+		echo '<div id="searchresultsstats">Selected keyword : <strong>'.$selectedskw.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';
+			}		
+	//All suggested Keywords are selected		
+	else if ($selectedskw =='All')  
+			{
+
+			$theresult= $mysqli->query('SELECT * FROM resolutions7  ORDER BY year, reference2') //or die (mysql_error());	// KW in WORK , Expertise and PUBLICATIONS
+
+			or die ('Error: ' . mysqli_error($mysqli));
+
+			// Count number of results of my query
+			$nbresult = mysqli_num_rows($theresult);
+
+
+		echo '<div id="searchresultsstats">Selected keyword : <strong>'.$selectedskw.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';
+			}			
+		
+		
 			/* //////////// Year //////////////*/			
 	//Only a specific Year is selected 	
 	else if ($selectedyear !='' && $selectedyear !='All')  
@@ -364,8 +433,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$nbresult = mysqli_num_rows($theresult);
 
 
-		echo 'Selected Year : <strong>'.$selectedyear.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
+		echo '<div id="searchresultsstats">Selected Year : <strong>'.$selectedyear.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';
 			}	
 		
 	//All years are selected 	
@@ -378,8 +447,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
-		echo 'Selected Year : <strong>'.$selectedyear.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
+		echo '<div id="searchresultsstats">Selected Year : <strong>'.$selectedyear.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';
 			}
 		
 		//////////// Body ////////////////////////
@@ -394,8 +463,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Body : <strong>'.$selbody.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 	// Only body is selected and is == All !!! All other variables should be set to ''
 	else if ($selbody !=''  && ($selbody =='All' || $selbody == 1) && $selsession =='' /* ($selsession =='' || $selsession =='All')*/ && $selectedInstrument =='' /*($selectedInstrument =='' || $selectedInstrument =='All')*/ && ($selecteddpt =='' || $selecteddpt =='All' ) && ($seldivision =='' || $seldivision =='All') && $selltg =='' && $selectedso =='')	
@@ -413,8 +482,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
 			}
 			else
-			{echo 'Selected Body : <strong>'.$selbody.'</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';	}
+			{echo '<div id="searchresultsstats">Selected Body : <strong>'.$selbody.'</strong><br/>
+			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';	}
 		}
 	// Only Session is selected and is != from All
 	else if ($selsession !='' && $selsession !='All' &&  ($selbody =='' || $selbody =='All' || $selbody == 1) && ($selectedInstrument =='' || $selectedInstrument =='All')  )	
@@ -427,8 +496,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong>'.$selsession.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Session: <strong>'.$selsession.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
 	// Only Session is selected and is == from All
@@ -442,8 +511,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong> All</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Session: <strong> All</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 		
 	// Only Instrument is selected and is != from All
@@ -457,8 +526,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
 		// Only Instrument is selected and is == to All
@@ -472,8 +541,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 		
 	// Body and Session are selected and are different from All	
@@ -487,8 +556,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
 	// Body and Instrument are selected and are different from All	
@@ -502,8 +571,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 			
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Body : <strong>'.$selbody.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 	// Session and Instrument are selected and are different from All	
 	else if ($selsession !='' && $selsession !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($selbody =='' || $selbody =='All' || $selbody == 1) )	
@@ -516,8 +585,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 
 	// body, session and instrument are selected and are different from All	
@@ -531,8 +600,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 /* //////////// Department - Unit //////////////*/			
 	//Only Department is selscted and != ALL or divion = All
@@ -545,8 +614,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 	
 	//Only Department is selscted and == ALL
@@ -559,8 +628,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 	
 	//Only Unit is selscted and != ALL	
@@ -574,8 +643,8 @@ else if ($seldivision !='' && $seldivision !='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 		
 //Only Unit is selscted and == ALL		
@@ -589,8 +658,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 	
 	//Department is selected and unit is selected and are != All
@@ -603,8 +672,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department : <strong>'.$selecteddpt.'</strong> - Division : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Department : <strong>'.$selecteddpt.'</strong> - Division : <strong>'.$seldivision.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 	
 /* //////////// LTG - SO //////////////*/			
@@ -619,8 +688,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 		
 	//Only LTG is selected and is == All 
@@ -633,8 +702,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}				
 			
 	//Only SO is selected and != ALL and LTG == All or empty
@@ -647,8 +716,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}			
 	
 	//Only SO is selected and == ALL and LTG == All or empty
@@ -661,8 +730,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 				// Count number of results of my query
 				$nbresult = mysqli_num_rows($theresult);
 
-			echo 'Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+			echo '<div id="searchresultsstats">Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/>
+			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 				}	
 
 	//LTG is selected and SO is selected and are != All
@@ -675,8 +744,8 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong> - Strategic Objective : <strong>'.$selectedso.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Long-Term Goal: <strong>'.$selltg.'</strong> - Strategic Objective : <strong>'.$selectedso.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}				
 			
 ///////////////////XXXXXXXXXXXXXXXX/////////////////////*/
@@ -687,101 +756,12 @@ else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $sel
 			$theresult= $mysqli->query('SELECT * FROM resolutions7  ORDER BY year, reference2') or die ('Error: ' . mysqli_error($mysqli));
 			$nbresult = mysqli_num_rows($theresult);
 
-			echo 'No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong>';
+			echo '<div id="searchresultsstats">No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong></div>';
 			
 			}
 			
 /* ////////////  RESULTS //////////////*/			
 		
-/////////////// Test variables //////////////////////////////////		
-/*		
-if (empty($selbody)) 
-  	{
-    echo "<br/>Please select a body";
-  	}
-	  else if ($selbody == 1) 
-		{
-		//echo '<br/> All';
-		echo '';
-		}
-	else
-		{
-		echo '<br/> '.$selbody;
-		}
-	
- if (empty($selsession)) 
-  	{
-    echo "<br/>Please select a Session";
-  	}
-  else 
-	{
-    echo '<br/>'.$selsession;
-  	}
-	
-if (empty($selectedInstrument)) 
-  	{
-    echo "<br/>Please select an Instrument";
-  	}
-  else 
-	{
-    echo '<br/>'.$selectedInstrument;
-  	}	
-	
-if (empty($selecteddpt)) 
-  	{
-    echo "<br/>Please select a Department";
-  	}
-  else 
-	{
-    echo '<br/>'.$selecteddpt;
-  	}
-	
-if (empty($seldivision)) 
-  	{
-    echo "<br/>Please select a Unit";
-  	}
-  else 
-	{
-    echo '<br/>'.$seldivision;
-  	}	
-	
-if (empty($selltg))	
-	{
-	echo "<br/>Please select a LTG";
-	}	
-else
-	{
-	echo '<br/>'.$selltg;
-	}
-	
-if (empty($selectedso))
-	{
-	echo "<br/>Please select a SO";
-	}
-	else
-	{
-	echo '<br/>'.$selectedso;	
-	}
-	 
-if (empty($selectedyear))
-	{
-	echo "<br/>Please select a Year";
-	}
-	else
-	{
-	echo '<br/>'.$selectedyear;	
-	}
-	
-if (empty($selectedkw))	
-	{
-	echo "<br/>Please select a KW";
-	}	
-else
-	{
-	echo '<br/>'.$selectedkw;
-	}
-*/		
-	/* ////////////  RESULTS //////////////*/		
 		
 			if(mysqli_num_rows($theresult) <> '' ) 
 				{
