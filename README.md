@@ -1,5 +1,5 @@
 # wmo-resolutions-php
-WMO Resolutions PHP app
+WMO Resolutions PHP app. Please describe the basic functionality of the app here.
 
 ## Running the application
 
