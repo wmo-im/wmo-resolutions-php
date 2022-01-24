@@ -1,28 +1,35 @@
-/* CSS WMO Resolution database */
-
+/* CSS Resolution database */
+/* version updated on 05-01-2022 */
 body{
 	margin:0;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
-	font-size:12px;
+	font-size:0.8em;
 	/*background-image:url(../images/pattern_062.gif);
 	background-repeat:repeat;*/
 	
 	}
 	h1
 	{
-		font-size:14px;
-		margin-bottom: 10px;
-		margin-top: 10px;
+		font-size:1.4em;
+		color: #0d307c;
+		
 	}
 	
 	h2{
-	font-size:12px;
-	font-weight: bold;
+	font-size:1.1em;
+	/*font-weight: bold;*/
 	margin:5px 0;
+	color: #0d307c;
+	}
+	 #part1 h2, #part2 h2, #part3 h2, #part4 h2
+	{
+		font-size:1em;
 	}
 	
-	h3{
-	font-size:12px;
+	h3 {
+	font-size:1.0em;
+	color: #0d307c;
+	font-weight: bold;
 	margin:5px 0;
 	
 	}
@@ -46,17 +53,51 @@ body{
 	#header {
 		border: 1px solid #fff;
 		width: 100%;
-		height:105px;
+		/*height:105px;*/
 		margin-bottom: 20px;
 		
+	}
+	
+	#header .logo 
+	{
+		width: 25%; /*width:300px; height: 101px;*/
+		float: left;
+		margin-right: 0px;
+		margin-bottom:10px;
+	}
+	
+	#header .title  {
+	width: 75%; /*width:300px; height: 101px;*/
+	text-align: right;
+	float: left;
+	
+	
+	}
+	#header .linkprogressreport{
+	width: 100%; /*width:300px; height: 101px;*/
+	/*border: 1px solid #ff9900;*/
+	float: left;
+	margin:0px;
+	padding: 0px;	
+	}
+	
+	#nav {
+		/*border: 1px solid #000;*/
+		width: 100%;
+		height: auto;
+		float: left;
+		text-align: right;
+		margin-bottom: 5px;
 		
 	}
 	#search
 	{
 	width:100%;
 	height:auto;
-	padding: 10px;
-	margin-top: 10px;
+		float: left;
+	/*padding: 10px;*/
+	margin-top: 5px;
+		
 	/*border:1px solid #3D3D3D;
 	border-radius: 5px;
 	 -moz-border-radius: 5px;
@@ -67,7 +108,7 @@ body{
 	*/	
 	
 	}
-	
+	/*
 	
 	#search h1
 	{
@@ -77,13 +118,14 @@ body{
 	margin:50px 0 50px 50px;
 		
 	}
-	
+	*/
 	
 	 #part1, #part2, #part3, #part4   {
 		
-	width:99%;
+	width:100%;
 	height:auto;
-	padding: 5px;
+	float: left;
+	padding: 5px 5px 10px 5px;
 	/*margin-top: 10px;*/
 	margin-bottom:15px;	 
 	border:1px solid #3D3D3D;
@@ -94,37 +136,60 @@ body{
 	}
 	#part1 ,#part3, #part4
 	{
-	min-height: 70px;
+	/*min-height: 70px;*/
 	}
 	
-	#part1 #Body , #part1 #WMOSession, #part1 #Instrument, #part1 #Addressee, #part1 #Ecdeadline,
-	#part2 #ECS, #part2 #ECstatus
+	#part1 #body , #part1 #wmosession, #part1 #instrument, #part1 #addressee, #part1 #ecdeadline, #part1 #instr, #part2 #p2-dpt, #part2 #p2-unit,
+	#part2 #ecs, #part2 #ecstatus
+	
 	{	
 	float: left;
 	margin-right: 10px;		
 	}
-	#part2 #ECS, #part2 #ECstatus
+	
+	#part1 #addressee, #part1 #ecdeadline, #part1 #instr /* for request page*/
+	{
+		/*width: 30%;*/
+		margin-right: 10px;
+	}
+	
+	#part2 #ecs, #part2 #ecstatus
 	{
 		max-width: 50%;
 	}
-	#part2 #ECstatus
+	
+	#part3 #p3-ltg, #part3 #p3-so, #part4 #p4-kw, #part4 #p4-year, #part4 #p4-sugkw
 	{
-		float: right;
+	/*float:left;	
+	width:30%;*/
+	float:left;
+	
+	}
+	#p3-ltg
+	{
+		margin-right:10px;
+	}
+	
+	#part4 #p4-kw
+	{
+	margin-right: 10px;	
+	}
+	#part4 #p4-sugkw
+	{
+	margin-right: 10px;	
+	}
+	
+	#searchresultsstats
+	{
+	width: 100%;
+	
 		
 	}
-	
-	#part4 #p4-kw, #part4 #p4-year
-	{
-	/*float:left;	*/
-	width:50%;
-	float:left;	
-	}
-	
-	
 	#results
 	{
 	width:99%;
 	min-height:100px;
+			float: left;
 	margin: 20px 0 0 0;
 	padding: 10px;
 	border:1px solid #3D3D3D;
@@ -140,6 +205,153 @@ body{
 	border:1px solid #3D3D3D;
 	margin: 5px 0 0 0;
 	padding: 10px;
-	
 		
 	}
+	/* XXXXXXXXXXXXX Small devices XXXXXXXXXXXXXXXXXXXXXXX*/
+	/* Extra small devices (phones, 600px and down) */
+	@media only screen and (max-width: 600px) 
+	
+	{
+		
+		
+		
+		
+		body
+		{
+		width:	95%;
+		}
+		#wrapper
+		{
+		margin:0 auto;
+		width:95%;	
+		padding: 5px;
+		/*max-width:1000px;
+		height:auto;*/
+	
+		}
+		
+		#header {
+		border: 1px solid #fff;
+		width: 100%;
+		margin-bottom: 20px;
+		
+		}
+	
+		#header .logo 
+		{
+			width: 50%; /*width:300px; height: 101px;*/
+			float: left;
+			margin-right: 0px;
+			margin-bottom:10px;
+		}
+	
+		#header .title  {
+		width: 100%; /*width:300px; height: 101px;*/
+		text-align: left;
+		float: left;
+	
+	
+		}
+		#header .linkprogressreport{
+		width: 100%; 
+		float: left;
+		margin:0px;
+		padding: 0px;	
+		}
+	
+		#nav {
+			
+			width: 100%;
+			/*height: auto;*/
+			float: left;
+			text-align: left;
+			margin-bottom: 5px;
+	
+		}
+		#search
+		{
+		width:100%;
+		height:auto;
+		float: left;
+		margin-top: 5px;
+		}
+	
+	
+		 #part1, #part2, #part3, #part4   {
+	
+		width:100%;
+		height:auto;
+		float: left;
+		padding: 5px 5px 10px 5px;
+		/*margin-top: 10px;*/
+		margin-bottom:15px;	 
+		border:1px solid #3D3D3D;
+		border-radius: 5px;
+		box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+		-webkit-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+		-moz-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
+		}
+	
+	/* for index */
+	#part1 #body , #part1 #wmosession, #part1 #instrument, #part2 #p2-dpt, #part2 #p2-unit, #part3 #p3-ltg, #part3 #p3-so, #part4 #p4-kw, #part4 #p4-year, #part4 #p4-sugkw
+	
+		{
+		width:100%;	
+		float: left;
+		/*margin-right: 10px;*/		
+		}
+	select
+		{
+			width: 100%;
+			/*background-color: cornflowerblue;*/
+		}
+		
+	/* for request page*/
+		#part1 #addressee, #part1 #ecdeadline, #part1 #instr, #part2 #ecs, #part2 #ecstatus
+		{
+			width:100%;	
+			float: left;
+			margin-right: 10px;
+		}
+	
+		#part2 #ecs, #part2 #ecstatus
+		{
+			max-width: 50%;
+		}
+	/* end request page*/
+		
+	
+	
+		#searchresultsstats
+		{
+		width: 100%;
+	
+	
+		}
+		#results
+		{
+		
+		width:99%;
+		min-height:100px;
+		float: left;
+		margin: 20px 0 0 0;
+		padding: 10px;
+		border:1px solid #3D3D3D;
+			border-radius: 5px;
+		 -moz-border-radius: 5px;
+		 -webkit-border-radius: 5px;
+		 box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+			-moz-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+			-webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.64);
+		}
+		#details{
+		width:95%;
+		border:1px solid #3D3D3D;
+		margin: 5px 0 0 0;
+		padding: 10px;
+		font-size: 0.9em;
+	
+		}
+	}
+	
+	
