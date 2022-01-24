@@ -1,5 +1,6 @@
 # wmo-resolutions-php
-WMO Resolutions PHP app. Please describe the basic functionality of the app here.
+
+WMO Resolutions PHP app. Please describe the basic functionality of the app here. For example bla-die-bla
 
 ## Running the application
 
