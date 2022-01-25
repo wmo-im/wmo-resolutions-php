@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* CSS To Print resolution database results */
+/* CSS To print WMO resolution database results */
 @media print { 
  /* All your print styles go here */
 #header {font-size: 0.5em; width: 100%;	
