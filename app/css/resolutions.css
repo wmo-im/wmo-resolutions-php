@@ -134,10 +134,7 @@ body{
 	-webkit-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
 	-moz-box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.48);
 	}
-	#part1 ,#part3, #part4
-	{
-	/*min-height: 70px;*/
-	}
+
 	
 	#part1 #body , #part1 #wmosession, #part1 #instrument, #part1 #addressee, #part1 #ecdeadline, #part1 #instr, #part2 #p2-dpt, #part2 #p2-unit,
 	#part2 #ecs, #part2 #ecstatus
