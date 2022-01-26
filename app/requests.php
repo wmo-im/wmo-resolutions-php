@@ -7,148 +7,135 @@ include('inc/resconnect.php');
 <head>
 <title>Resolutions and decisions</title>
 <link href="css/resolutions.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="css/print.css" rel="stylesheet" type="text/css"  media="print" />	
 </head>
-
+<!-- 26.01.2022 -->
 <body>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {	// define variables and set to empty values
-	$selbody = $selsession = $selectedInstrument = $selecteddpt = $seldivision = $selltg = $selectedso = $selectedyear = $selectedkw = "";
+	//$seladdressee = $seldeadline = $selectedInstrument = $selecteddpt = $seldivision = $selltg = $selectedso  = "";
+	$seladdressee = $seldeadline = $selectedInstrument = $selectedecs = $selectedecstat = "";
   // collect value of input fields
-	$WMObody= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Body']));
-	$WMOSession= $mysqli -> real_escape_string (htmlspecialchars ($_POST['WMOSession']));
+	$WMOAddressee= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Addressee']));
+	$WMODeadline= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Ecdeadline']));
 	$WMOInstrument= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Instrument']));
-	$WMODepartment = $mysqli -> real_escape_string (htmlspecialchars ($_POST['Dpt']));
-	$WMODivision= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Division']));
-	$WMOLtg= $mysqli -> real_escape_string (htmlspecialchars ($_POST['Ltg']));
-	$WMOSo = $mysqli -> real_escape_string (htmlspecialchars ($_POST['So']));
-	$WMOYear = $mysqli -> real_escape_string (htmlspecialchars ($_POST['Year']));
-	$WMOKw = $mysqli -> real_escape_string (htmlspecialchars ($_POST['KeyW']));
-	
-	$selbody = $WMObody;
-	$selsession = $WMOSession;
+	$WMOECS = $mysqli -> real_escape_string (htmlspecialchars ($_POST['ECS']));
+	$ECstat= $mysqli -> real_escape_string (htmlspecialchars ($_POST['ECstatus']));
+
+	// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	$seladdressee = $WMOAddressee;
+	$seldeadline = $WMODeadline;
 	$selectedInstrument = $WMOInstrument;
-	$selecteddpt = $WMODepartment;
-	$seldivision = $WMODivision;
-	$selltg = $WMOLtg;
-	$selectedso = $WMOSo;
-	$selectedyear = $WMOYear;
-	$selectedkw = $WMOKw;
-	
-/*	
-	if (empty($selbody)) 
-  	{
-    echo "<br/>Please select a body";
-  	}
-	 /* else if ($selbody == 1) 
-		{
-		//echo '<br/> All';
-		  echo '';
-		} */
-/*	else
-		{
-		echo '<br/> '.$selbody;
-		} */
+	$selectedecs = $WMOECS;
+	$selectedecstat =$ECstat;
+
 	
 }	
 ?>	
 <div id="wrapper">
 	<div id="header">
-	<img src="wmologo2016_fulltext_horizontal300x101_rgb_en.png" width="300" height="101" alt="" style="float: left;margin-right: 20px; margin-bottom:10px;"/><h1><br/>WMO Congress, Executive Council, Regional Associations and Technical Commissions Resolutions, Decisions and Recommendations in force</h1>
-	<em><a href="https://meetings.wmo.int/EC-73/_layouts/15/WopiFrame.aspx?sourcedoc=/EC-73/InformationDocuments/EC-73-INF08-REVIEW-OF-PREVIOUS-RESOLUTIONS_en.docx&action=default" target="_blank">Progress and recommendations for Cg-18 Resolutions as reported in EC-73/INF. 8</a></em>
-		<p><a href="requests.php">>> Requests made by the WMO Excecutive Council as from EC-73</a></p>
+	<img src="wmologo2016_fulltext_horizontal300x101_rgb_en.png" width="300" height="101" alt="" style="float: left;margin-right: 20px; margin-bottom:10px;"/>
+	<h1>Requests made by Congress as from Cg-Ext(2021) and the Executive Council as from EC-73</h1>
+		
+	</div>
+	<div id="nav">
+	<p><a href="index.php"> >> WMO Congress, Executive Council, Regional Associations and Technical Commissions Resolutions, Decisions and Recommendations in force</a></p>
 	</div>
 	<div id="search">
 	<div id="part1">
-	<form method="post"  action="index.php">
-<!-- ***************** Body / Session / Instrument************************ -->		
+	<form method="post"  action="requests.php">
+<!-- ***************** Addressee / EC-Sesion Deadline / instruments  ************************ -->		
 		
-<!-- ***************** Body ************************ -->		
-		<h2>WMO Constituent Bodies, Sessions and Instruments</h2>
- <!--  Name: <input type="text" name="fname">
-  <input type="submit"> -->
-		 <select name="Body" id="Body" onChange="submit()">
-					<option value="" > ------ Select a WMO Constituent Body ------ </option>
-					<option value="All" > All bodies</option>
+<!-- ***************** Addressee ************************ -->		
+		<div id="addressee">
+		<h2>Addressees</h2>
+
+	    <select name="Addressee" id="Addressee" onChange="submit()">
+					<option value="" > ------ Please Select Addressee ------ </option>
+					<option value="All" > All </option>
 		<?php	
-			 		$bdy= $mysqli->query('SELECT distinct body FROM resolutions7 ORDER BY body ASC') or die ('Error: ' . mysqli_error($mysqli));
+			 		$addr= $mysqli->query('SELECT distinct Addressee FROM requests ORDER BY Addressee ASC') or die ('Error: ' . mysqli_error($mysqli));
 			 
-					while ($body = mysqli_fetch_array($bdy))
+					while ($addressee = mysqli_fetch_array($addr))
 						{
 					?>
-						<option value="<?php echo $body['body'];?>"<?php if ($body['body']==$selbody){echo 'selected';}else {echo'';}?>> <?php echo nl2br($body['body']); ?></option>
+						<option value="<?php echo $addressee['Addressee'];?>"<?php if ($addressee['Addressee']==$seladdressee){echo 'selected';}else {echo'';}?>> <?php echo nl2br($addressee['Addressee']); ?></option>
 			  		<?php
 						}				
 				 ?>
   		</select>	
-		
-<!-- *****************  END Body ************************ -->			
-<!-- ***************** Session ************************ -->
-	
-<!--	<h2>Session</h2> 	-->
+		</div>
+<!-- *****************  END Addressee ************************ -->			
+<!-- ***************** EC Session deadline ************************ -->
+
 	<?php 	
-	// On recupere la valeur session choisi
-	//////////// Queries to feed Session from Body /////////////////////
-	if (isset($selbody) && $selbody !='All' && $selbody !='') // A specific body is selected
+	// On recupere la valeur Addressee choisie
+	//////////// Queries to feed EC Session deadline from Addressee /////////////////////
+	if (isset($seladdressee) && $seladdressee !='All' && $seladdressee !='') // A specific addressee is selected
 		{
-		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 WHERE body =\''.$selbody.'\' ORDER BY session ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$sessdead= $mysqli->query('SELECT distinct Deadline FROM requests WHERE Addressee =\''.$seladdressee.'\' ORDER BY Addressee ASC') or die ('Error: ' . mysqli_error($mysqli));
 		}
+	
 	else
 		{
-		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 ORDER BY session ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$sessdead= $mysqli->query('SELECT distinct Deadline FROM requests ORDER BY Deadline ASC') or die ('Error: ' . mysqli_error($mysqli));
 	 	//echo '<br/>Body session not set<br/>';
 	
 		}
 	
-	// Checks if there is a result in the session scroll-down menu //
-	$nbresultsess = mysqli_num_rows($sess);
+	// Checks if there is a result in the EC session deadline scroll-down menu //
+	$nbresultsessdead = mysqli_num_rows($sessdead);
 
 	?>
-
-	  <select name="WMOSession" id="WMOSession" onChange="submit()">
-					<option value=""> ------ Select a Session ------ </option>
-		<?php if ($nbresultsess > 1) {echo'<option value="All"> All Sessions</option>';}	else {echo '';} // if there is only 1 session after filtering we dont display all ?>
-		<?php
+	<div id="ecdeadline">
+	<h2>Deadlines</h2>
+	  <select name="Ecdeadline" id="Ecdeadline" onChange="submit()">
+					<option value=""> ------ Select a Deadline ------ </option>
+		<?php 
+		  if ( $nbresultsessdead > 1) {echo'<option value="All"> All Sessions deadlines </option>';} else {echo '';} // if there is only 1 deadline after filtering we dont display all
 				
-					while ($thesession = mysqli_fetch_array($sess))
+			while ($deadline = mysqli_fetch_array($sessdead))
 				 {
 					?>
 				
-		  <option value="<?php echo $thesession['session'];?>"<?php if ($thesession['session']==$selsession){echo 'selected';}else {echo'';}?>> <?php echo nl2br($thesession['session']); ?></option>
+		  <option value="<?php echo $deadline['Deadline'];?>"<?php if ($deadline['Deadline']==$seldeadline && $deadline['Deadline']!=''){echo 'selected';} else {echo'';}?>> <?php echo nl2br($deadline['Deadline']); ?></option>
 					<?php
 				 }
-				 ?>
-  		</select>	
-	<!-- ***************** End Session ************************ -->	
+			 ?>
+  		</select>
+		</div>
+	<!-- ***************** EC Session deadline  ************************ -->	
 	
 	<!-- ***************** Instrument ************************ -->
 	<?php
 	// To feed the instrument scroll-down menu //
 
-	if (isset($selbody) && $selbody!='' && $selbody!='All' && isset($selsession) && $selsession !='' && $selsession !='All' ) // Si body et session sont selectionnes
+	if (isset($seladdressee) && $seladdressee!='' && $seladdressee!='All' && isset($seldeadline) && $seldeadline !='' && $seldeadline !='All' ) // If  addressee and Ec session deadline sont selectionnes
 		{
-		$selInstrument= $mysqli->query('SELECT distinct instrument FROM resolutions7 where  body =\''.$selbody.'\' AND session =\''.$selsession.'\' ORDER BY instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$selInstrument= $mysqli->query('SELECT distinct Instrument FROM requests where Addressee =\''.$seladdressee.'\' AND Deadline =\''.$seldeadline.'\' ORDER BY Instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
 		//echo '<br/> Body & Session selected<br/>';
 		}
-	elseif (isset($selbody) && $selbody!='All' && $selbody!=''  && (!isset($selsession) || $selsession ='' || $selsession = 'All')) // seul body est selectionne
+	elseif (isset($seladdressee) && $seladdressee!='All' && $seladdressee!=''  && (!isset($seldeadline) || $seldeadline ='' || $seldeadline = 'All')) // Only Addressee is selected
 		{
-		$selInstrument= $mysqli->query('SELECT distinct instrument FROM resolutions7 where body =\''.$selbody.'\' ORDER BY instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$selInstrument= $mysqli->query('SELECT distinct Instrument FROM requests where Addressee =\''.$seladdressee.'\' ORDER BY Instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
 		//echo '<br/>Only Body selected<br/>';
 		}
-	elseif ((!isset($selbody) || $selbody ='All' || $selbody='') && isset($selsession) && $selsession !='' && $selsession !='All') // seul session est selectionne
+	elseif ((!isset($seladdressee) || $seladdressee ='All' || $seladdressee='') && isset($seldeadline) && $seldeadline !='' && $seldeadline !='All') // Only Ec session deadline is selected
 		{
-		$selInstrument= $mysqli->query('SELECT distinct instrument FROM resolutions7 where session =\''.$selsession.'\' ORDER BY instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$selInstrument= $mysqli->query('SELECT distinct Instrument FROM requests where Deadline =\''.$seldeadline.'\' ORDER BY Instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
 		//echo '<br/> Only Session selected<br/>';
 		}
 	else 
 		{
-		$selInstrument= $mysqli->query('SELECT distinct instrument FROM resolutions7 ORDER BY instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$selInstrument= $mysqli->query('SELECT distinct Instrument FROM requests ORDER BY Instrument ASC') or die ('Error: ' . mysqli_error($mysqli));
 		
 		}
 
 	$nbresultinstrument = mysqli_num_rows($selInstrument);
 	?>	
-<!--	<h2>Instrument</h2>	-->
+	<div id="instr">
+	<h2>Instruments</h2>
 	 <select name="Instrument" id="Instrument"  onChange="submit()">
 					<option value=""> ------ Select an Instrument ------ </option>
 					
@@ -158,173 +145,96 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 {
 					?>
 					
-		  <option value="<?php echo $theinstrument['instrument'];?>"<?php if ($theinstrument['instrument']==$selectedInstrument){echo 'selected';}else {echo'';}?>> <?php echo nl2br($theinstrument['instrument']); ?></option>
+		  <option value="<?php echo $theinstrument['Instrument'];?>"<?php if ($theinstrument['Instrument']==$selectedInstrument){echo 'selected';}else {echo'';}?>> <?php echo nl2br($theinstrument['Instrument']); ?></option>
 		 
 					<?php
 				 }
 				 	?> 		 			
 		 </select>
-		 
+		 </div>
 	</form>
 	</div> <!-- part 1 -->
+
 	<div id="part2">
-	<form method="post" action="index.php">
-	<!-- ***************** Department/Entity ************************ -->
-	<h2>Department/Entity and Unit</h2>
+	<form method="post" action="requests.php">
+	<!-- ***************** Ec Session / Status ************************ -->
+	
+	<div id="ecs">	
+	<h2>Sessions </h2>
 
 	<?php
-	// To feed the department scroll-down menu //
-	$dept= $mysqli->query('SELECT distinct resp1 FROM resolutions7 ORDER BY resp1 ASC') or die ('Error: ' . mysqli_error($mysqli));
+	// To feed the EC-Session scroll-down menu // 
+	
+	$ecsess= $mysqli->query('SELECT distinct ECsession FROM requests ORDER BY ECsession ASC') or die ('Error: ' . mysqli_error($mysqli));
+		
+
 	?>
 	
-	  <select name="Dpt" onChange="submit()">
-					<option value=""> ------ Select a Department/Entity ------ </option>
-					<option value="All"> All Departments/Entities</option>
+	  <select name="ECS" id="ECS" onChange="submit()">
+					<option value=""> ------ Select a Session ------ </option>
+					<option value="All"> All Sessions</option>
 		<?php
 				
-					while ($resp1 = mysqli_fetch_array($dept))
+					//while ($ecsession = mysqli_fetch_array($ecsess))
+		  		while ($result = mysqli_fetch_array($ecsess))
 				 {
 					?>
-					<option value="<?php echo $resp1['resp1'];?>" <?php if ($resp1['resp1']==$selecteddpt){echo 'selected';}else {echo'';}?>> <?php echo nl2br($resp1['resp1']); ?></option>
+					<option value="<?php echo $result['ECsession'];?>" <?php if ($result['ECsession']== $selectedecs){echo 'selected';} else {echo'';}?>> <?php echo nl2br($result['ECsession']); ?>
+		  			</option>
 					<?php
+										
 				 }
 				 ?>
   		</select>
-	
-	 	<!-- ***************** Unit ************************ -->
+	</div>
+	 	<!-- *****************Status ************************ -->
 	<?php 	
-	// On recupere la valeur division choisi
+	// On recupere la valeur EC Status choisi
 
-	//////////// Queries to feed Division from Department /////////////////////
-	if (isset($selecteddpt) && $selecteddpt !='All' && $selecteddpt !='') // A specific Dpt is selected
-		{
-		$div= $mysqli->query('SELECT distinct  resp2 FROM resolutions7 WHERE resp1 =\''.$selecteddpt.'\' && resp2!=\'\' ORDER BY  resp2 ASC') or die ('Error: ' . mysqli_error($mysqli));
-		}
+	//////////// Queries to feed EC Status /////////////////////
+		
+	//if (isset($selectedecstat) && $selectedecstat !='All' && $selectedecstat !='') // A specific Status is selected
+	if (isset($selectedecs) && $selectedecs !='All' && $selectedecs !='') // A specific EC session is selected	$selectedecs
+		{/**/
+		$reqstat= $mysqli->query('SELECT distinct Status FROM requests WHERE ECsession =\''.$selectedecs.'\' ORDER BY  Status ASC') or die ('Error: ' . mysqli_error($mysqli));
+	}
 	else
 		{
-		$div= $mysqli->query('SELECT distinct resp2 FROM resolutions7 where resp2!=\'\' ORDER BY resp2 ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$reqstat= $mysqli->query('SELECT distinct Status FROM requests WHERE Status !=\'\' ORDER BY Status ASC')or die ('Error: ' . mysqli_error($mysqli));
 		}
-	
+/*	*/	
 	// Checks if there is a result in the unit scroll-down menu //
-	$nbresultdiv= mysqli_num_rows($div);
+	$nbresultdiv= mysqli_num_rows($reqstat);
 	?>
-<!--	<h2>Unit</h2> -->
-<br/><br/>
-	  <select name="Division" onChange="submit()">
-					<option value=""> ------ Select a Unit ------ </option>
+
+	<div id="ecstatus">
+		<h2>Status</h2>
+	  <select name="ECstatus" onChange="submit()">
+					<option value=""> ------ Select Status ------ </option>
 		  			<!--<option value="All" selected >All units</option>
-		  			 <option value="All"> All units </option> -->
-		<?php if ($nbresultdiv > 1) {echo'<option value="All"> All units</option>';} else {echo '';} // if there is only 1 unit after filtering we dont display all ?>
+		  			 <option value="All"> All Status </option> -->
+		<?php if ($nbresultdiv > 1) {echo'<option value="All"> All Status</option>';} else {echo '';} // if there is only 1 unit after filtering we dont display all ?>
 						
 		<?php
   
-					while ($seldiv = mysqli_fetch_array($div))
+					while ($selstat = mysqli_fetch_array($reqstat))
 				 	{
 					 ?>
 		  
-					<option value="<?php echo $seldiv['resp2'];?>" <?php if ($seldiv['resp2']==$seldivision){echo 'selected';}else {echo'';}?>> <?php echo nl2br($seldiv['resp2']); ?></option>
+					<option value="<?php echo $selstat['Status'];?>" <?php if ($selstat['Status']== $selectedecstat){echo 'selected';} else {echo'';}?>> <?php echo nl2br($selstat['Status']); ?></option>
 					
 		  	<?php
 				 	}
 					
 				 ?>
   		</select>
+		</div>
 	</form>
+		<br/><br/>
 	</div> <!-- part2 -->
-	<div id="part3">
-	<form method="post" action="index.php">
-	<!-- ***************** LTG ************************ -->
-	<h2>Long-Term Goals and Strategic Objectives</h2>
-	<?php
-	// To feed the department scroll-down menu //
-	$ltg= $mysqli->query('SELECT distinct kw1 FROM resolutions7 ORDER BY kw1 ASC') or die ('Error: ' . mysqli_error($mysqli));
 	
-	
-	?>
-	
-	  <select name="Ltg" onChange="submit()">
-					<option value=""> ------ Select a Long-Term Goal ------ </option>
-					<option value="All"> All Long-Term Goals</option>
-		<?php
-				
-					while ($ltgs = mysqli_fetch_array($ltg))
-				 {
-					?>
-					<option value="<?php echo $ltgs['kw1'];?>" <?php if ($ltgs['kw1']==$selltg){echo 'selected';}else {echo'';}?>> <?php echo nl2br($ltgs['kw1']); ?></option>
-					<?php
-				 }
-				 ?>
-  		</select>
-	
-		<!-- ***************** SO ************************ -->
-<!--	<h2>Strategic Objectives</h2> -->
-	<?php
-	// To feed the SO scroll-down menu //
-	
-	if (isset($selltg) && $selltg !='All' && $selltg !='') // A specific Dpt is selected
-		{
-		$so= $mysqli->query('SELECT distinct kw2 FROM resolutions7 WHERE kw1 =\''.$selltg.'\' && kw2!=\'\' ORDER BY  kw2 ASC') or die ('Error: ' . mysqli_error($mysqli));
-		}
-	else
-		{
-		
-		$so= $mysqli->query('SELECT distinct kw2 FROM resolutions7 where kw2!=\'\' ORDER BY kw2 ASC') or die ('Error: ' . mysqli_error($mysqli));
-		}
-	
-	// Checks if there is a result in the unit scroll-down menu //
-	$nbresultso= mysqli_num_rows($so);
 
-	?>	
-	  <select name="So" onChange="submit()">
-					<option value=""> ------ Select a Strategic Objective ------ </option>
-				
-		  <?php if ($nbresultso > 1) {echo'<option value="All">  All Strategic Objectives</option>';}	else {echo '';} // if there is only 1 SO after filtering we dont display all ?>
-		<?php
-				
-					while ($sos = mysqli_fetch_array($so))
-				 {
-					?>
-					<option value="<?php echo $sos['kw2'];?>" <?php if ($sos['kw2']==$selectedso){echo 'selected';}else {echo'';}?>> <?php echo nl2br($sos['kw2']); ?></option>
-					<?php
-				 }
-				 ?>
-  		</select>
-	</form>	
-	</div> <!-- part3 -->
-	<div id="part4">
-	<form method="post" action="index.php">
- <!-- ////////////////////////// SELECTION KEYWORD ////////////////////////////// -->
-		<div id="p4-kw">
-		<h2> Keyword  </h2>
-  		<input type="text" name="KeyW" onChange="submit()" />
-			&nbsp;<a href="Cg-EC-RAs-TCs-resolutions_decisions_and_recommendations_in_force_23.IX.2021_List-of-keywords.pdf" target="_blank">List of suggested keywords</a> 
-		</div>
-		
-  <!--////////////////////////// END SELECTION KEYWORD ////////////////////////////// -->	
-	<!-- ***************** Year ************************ -->
-	<div id="p4-year">
-	<h2>Year</h2>
-	<?php
-	// To feed the year scroll-down menu //
-	$selYear= $mysqli->query('SELECT distinct year FROM resolutions7 ORDER BY year ASC') or die ('Error: ' . mysqli_error($mysqli));
-	?>
-	  <select name="Year" onChange="submit()">
-					<option value=""> ------ Select a Year ------ </option>
-					<option value="All"> All years</option>
-		<?php
-				
-					while ($theyear = mysqli_fetch_array($selYear))
-				 {
-					?>
-					<option value="<?php echo $theyear['year'];?>"> <?php echo nl2br($theyear['year']); ?></option>
-					<?php
-				 }
-				 ?>
-  		</select>
-		</div>
 
-	</form>	
-	</div> <!-- part4 -->	
 </div> <!-- Search -->
 	
  <!--////////////////////////// Results ////////////////////////////// -->	
@@ -332,392 +242,293 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		
 <?php
 		
-			/* //////////// QUERIES and RESULTS //////////////*/
+/* //////////// QUERIES and RESULTS //////////////*/
 		
-			/* //////////// QUERIES //////////////*/	
-			/* //////////// Keyword //////////////*/			
-	//Only a Key Word is selected	
-		if ($selectedkw !='')  
-			{
-
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE reference like \'%'.$selectedkw.'%\' or title like \'%'.$selectedkw.'%\'  or content like \'%'.$selectedkw.'%\' or year like \'%'.$selectedkw.'%\' or body like \'%'.$selectedkw.'%\' or instrument like \'%'.$selectedkw.'%\' or source like \'%'.$selectedkw.'%\' or kw1 like \'%'.$selectedkw.'%\' or kw2 like \'%'.$selectedkw.'%\' or kw3 like \'%'.$selectedkw.'%\' or kw4 like \'%'.$selectedkw.'%\' or kw5 like \'%'.$selectedkw.'%\' or resp1 like \'%'.$selectedkw.'%\' or resp2 like \'%'.$selectedkw.'%\' ORDER BY year, reference2') //or die (mysql_error());	// KW in WORK , Expertise and PUBLICATIONS
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-
-		echo 'Entered keyword : <strong>'.$selectedkw.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
-			}
-			/* //////////// Year //////////////*/			
-	//Only a specific Year is selected 	
-	else if ($selectedyear !='' && $selectedyear !='All')  
-			{
-
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  year = \''.$selectedyear.'\' ORDER BY year, reference2') //or die (mysql_error());	// KW in WORK , Expertise and PUBLICATIONS
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-
-		echo 'Selected Year : <strong>'.$selectedyear.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
-			}	
 		
-	//All years are selected 	
-	else if ($selectedyear =='All' )  
-			{
-
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  year !=\'\' ORDER BY year, reference2') //or die (mysql_error());	// KW in WORK , Expertise and PUBLICATIONS
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-		echo 'Selected Year : <strong>'.$selectedyear.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';
-			}
+/* //////////// QUERIES //////////////*/	
 		
-		//////////// Body ////////////////////////
-	// Only body is selected and is != from All
-	else if ($selbody !=''  && $selbody !='All' && $selbody <> 1 &&  ($selsession =='' || $selsession =='All') &&  ($selectedInstrument =='' || $selectedInstrument =='All')  )	
+		//////////// Addressee////////////////////////
+	// Only Addressee is selected and is != from All
+	 if ($seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 &&  ($seldeadline =='' || $seldeadline =='All'|| $seldeadline == 1) &&  ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  body =\''.$selbody.'\'  ORDER BY year, reference2') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
+		/* Test*/
+		 $theresult= $mysqli->query('SELECT requests.Addressee, requests.Instrument, requests.ECsession, requests.Request, requests.Deadline, requests.Status,requests.Verification,
+		 resolutions7.link ,resolutions7.title, resolutions7.year
+		 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') or die ('Error: ' . mysqli_error($mysqli));//
+		 
+		 
+		/* works 25-11-2021 $theresult= $mysqli->query('SELECT * FROM requests  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') 
+			or die ('Error: ' . mysqli_error($mysqli));*/
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
-	// Only body is selected and is == All !!! All other variables should be set to ''
-	else if ($selbody !=''  && ($selbody =='All' || $selbody == 1) && $selsession =='' /* ($selsession =='' || $selsession =='All')*/ && $selectedInstrument =='' /*($selectedInstrument =='' || $selectedInstrument =='All')*/ && ($selecteddpt =='' || $selecteddpt =='All' ) && ($seldivision =='' || $seldivision =='All') && $selltg =='' && $selectedso =='')	
+	// Only Addressee  is selected and is == All !!! All other variables should be set to ''
+	else if ($seladdressee!=''  && ($seladdressee=='All' || $seladdressee== 1) && $seldeadline ==''  && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  body !=\'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee !=\'\'   ORDER BY requests.Instrument') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
-			if ($selbody == 1 &&  ($selsession =='' || $selsession =='All') &&  ($selectedInstrument =='' || $selectedInstrument =='All') )
+			if ($seladdressee== 1 &&  ($seldeadline =='' || $seldeadline =='All') &&  ($selectedInstrument =='' || $selectedInstrument =='All') )
 			{
-			echo 'Selected Body : <strong> All</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+			echo '<div id="searchresultsstats">Selected Addressee : <strong> All</strong><br/>
+			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 			else
-			{echo 'Selected Body : <strong>'.$selbody.'</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';	}
+			{echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong><br/>
+			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';	}
 		}
-	// Only Session is selected and is != from All
-	else if ($selsession !='' && $selsession !='All' &&  ($selbody =='' || $selbody =='All' || $selbody == 1) && ($selectedInstrument =='' || $selectedInstrument =='All')  )	
+	// Only Deadline is selected and is != from All
+	else if ($seldeadline !='' && $seldeadline !='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  session =\''.$selsession.'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline =\''.$seldeadline.'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong>'.$selsession.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
-	// Only Session is selected and is == from All
-	else if ($selsession !='' && $selsession =='All' &&  ($selbody =='' || $selbody =='All' || $selbody == 1) && ($selectedInstrument =='' || $selectedInstrument =='All')  )	
+	// Only deadline is selected and is == from All
+	else if ($seldeadline !='' && $seldeadline =='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  session !=\'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline !=\'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong> All</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Deadline: <strong> All</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
-		
+
 	// Only Instrument is selected and is != from All
-	else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($selsession =='' || $selsession =='All') &&  ($selbody =='' || $selbody =='All' || $selbody == 1) )	
+	else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  instrument =\''.$selectedInstrument.'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
 		// Only Instrument is selected and is == to All
-	else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($selsession =='' || $selsession =='All') &&  ($selbody =='' || $selbody =='All' || $selbody == 1) )	
+	else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  instrument !=\'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Instrument !=\'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 		
-	// Body and Session are selected and are different from All	
-	else if ($selbody !='' && $selbody !='All' && $selsession !=''  && $selsession !='All' && $selectedInstrument =='' )	
+	// Addressee and Deadline are selected and are different from All 	
+	else if ($seladdressee!='' && $seladdressee!='All' && $seldeadline !=''  && $seldeadline !='All' && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 	
 			{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  body =\''.$selbody.'\' AND session =\''.$selsession.'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Deadline =\''.$seldeadline.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 		
-	// Body and Instrument are selected and are different from All	
-	else if ($selbody !='' && $selbody !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($selsession =='' || $selsession =='All') )	
+	// Addressee and Instrument are selected and are different from All	
+	else if ($seladdressee!='' && $seladdressee!='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 			{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  body =\''.$selbody.'\' AND instrument =\''.$selectedInstrument.'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 			
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
-	// Session and Instrument are selected and are different from All	
-	else if ($selsession !='' && $selsession !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($selbody =='' || $selbody =='All' || $selbody == 1) )	
+	// Deadline and Instrument are selected and are different from All	
+	else if ($seldeadline !='' && $seldeadline !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 	
 			{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE session =\''.$selsession.'\' AND instrument =\''.$selectedInstrument.'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 
-	// body, session and instrument are selected and are different from All	
-	else if ($selectedInstrument !='' && $selectedInstrument !='All' && $selsession !=''  && $selsession !='All' && $selbody !=''  && $selbody !='All' && $selbody <> 1 )	
+	// Addressee, deadline and instrument are selected and are different from All	
+	else if ($selectedInstrument !='' && $selectedInstrument !='All' && $seldeadline !=''  && $seldeadline !='All' && $seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
 			{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  body =\''.$selbody.'\' AND session =\''.$selsession.'\' AND instrument =\''.$selectedInstrument.'\'  ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Body : <strong>'.$selbody.'</strong> - Session: <strong>'.$selsession.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
-/* //////////// Department - Unit //////////////*/			
-	//Only Department is selscted and != ALL or divion = All
-	else if ($selecteddpt !='' && $selecteddpt !='All' && $selbody == 1 && ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody ==''))
+				
+/* //////////// EC Session and status //////////////*/	
+		
+	/*	
+		$selectedecs 
+	$selectedecstat
+	
+	*/
+		
+	//Only EC Session is selected and != ALL or Status = All or''
+	else if ($selectedecs !='' && $selectedecs !='All'  && ($selectedecstat =='' || $selectedecstat =='All') )
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  resp1 =\''.$selecteddpt.'\'   ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.ECsession =\''.$selectedecs.'\'    ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 	
-	//Only Department is selscted and == ALL
-	else if ($selecteddpt !='' && $selecteddpt =='All' && $selbody == 1/*&& ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody =='')*/)
+	//Only EC Session is selected and == ALL
+	else if ($selectedecs !='' && $selectedecs =='All'  && ($selectedecstat =='' || $selectedecstat =='All'))
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  resp1 !=\'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.ECsession  !=\'\' ORDER requests.ECsession') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department/Entity : <strong>'.$selecteddpt.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}	
 	
-	//Only Unit is selscted and != ALL	
+	//Only Status is selected and != ALL	
 	
-else if ($seldivision !='' && $seldivision !='All' && ($selecteddpt =='' || $selecteddpt =='All') && $selbody == 1/*&& ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody =='')*/)
+else if ($selectedecstat !='' && $selectedecstat !='All' && ($selectedecs =='' || $selectedecs =='All') )
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  resp2 =\''.$seldivision.'\'   ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status =\''.$selectedecstat.'\'   ORDER BY requests.Instrument') 
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}
 		
-//Only Unit is selscted and == ALL		
+//Only Status is selected and == ALL		
 
-else if ($seldivision !='' && $seldivision =='All' && ($selecteddpt =='' || $selecteddpt =='All') && $selbody == 1/*&& ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody =='')*/)
+else if ($selectedecstat !='' && $selectedecstat =='All' && ($selectedecs =='' || $selectedecs =='All'))
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  resp2 !=\'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status !=\'\'  ORDER BY requests.Instrument') 
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Unit : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 	
-	//Department is selected and unit is selected and are != All
-	else if ($selecteddpt !='' && $selecteddpt !='All' && $seldivision !='' && $seldivision !='All' && $selbody == 1/*&& ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody =='')*/)
+	// EC Session is selected and Statusis selected and are != All
+	else if ($selectedecs !='' && $selectedecs !='All' && $selectedecstat !='' && $selectedecstat !='All')
 		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7 WHERE resp1 =\''.$selecteddpt.'\' AND resp2 =\''.$seldivision.'\' ORDER BY year, reference2') //or die (mysql_error());
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE requests.ECsession =\''.$selectedecs.'\'  AND requests.Status =\''.$selectedecstat.'\' ORDER BY requests.Instrument') //or die (mysql_error());
 
 			or die ('Error: ' . mysqli_error($mysqli));
 
 			// Count number of results of my query
 			$nbresult = mysqli_num_rows($theresult);
 
-		echo 'Selected Department : <strong>'.$selecteddpt.'</strong> - Division : <strong>'.$seldivision.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
+		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> - Status : <strong>'.$selectedecstat.'</strong> <br/> 
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 			}		
 	
-/* //////////// LTG - SO //////////////*/			
-	//Only LTG is selected and is != All or SO = All	
-		
-	else if ($selltg !='' && $selltg !='All'  && ($selectedso =='' || $selectedso =='All') && ($selbody == 1 || $selbody ==''))
-		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  kw1 =\''.$selltg.'\'   ORDER BY year, reference2') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
-			}		
-		
-	//Only LTG is selected and is == All 
-	else if ($selltg =='All' && ($selectedso =='' || $selectedso =='All') && ($selbody == 1 || $selbody ==''))
-		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  kw1 !=\'\' ORDER BY year, reference2') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
-			}				
 			
-	//Only SO is selected and != ALL and LTG == All or empty
-	else if ($selectedso !='' && $selectedso !='All'  && ($selltg =='' || $selltg =='All') && ($selbody == 1 || $selbody ==''))
-		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  kw2 =\''.$selectedso.'\'   ORDER BY year, reference2') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo 'Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
-			}			
-	
-	//Only SO is selected and == ALL and LTG == All or empty
-	else if ($selectedso =='All'  && ($selltg =='' || $selltg =='All') && ($selbody == 1 || $selbody ==''))
-			{
-				$theresult= $mysqli->query('SELECT * FROM resolutions7  WHERE  kw2 !=\'\'  ORDER BY year, reference2') //or die (mysql_error());
-
-				or die ('Error: ' . mysqli_error($mysqli));
-
-				// Count number of results of my query
-				$nbresult = mysqli_num_rows($theresult);
-
-			echo 'Selected Strategic Objective : <strong>'.$selectedso.'</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
-				}	
-
-	//LTG is selected and SO is selected and are != All
-	else if ($selltg !='' && $selltg !='All' && $selectedso !='' && $selectedso !='All' && $selbody == 1/*&& ($seldivision =='' || $seldivision =='All') && ($selbody == 1 || $selbody =='')*/)
-		{
-			$theresult= $mysqli->query('SELECT * FROM resolutions7 WHERE kw1 =\''.$selltg.'\' AND kw2 =\''.$selectedso.'\' ORDER BY year, reference2') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo 'Selected Long-Term Goal: <strong>'.$selltg.'</strong> - Strategic Objective : <strong>'.$selectedso.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/>';				
-			}				
 			
 ///////////////////XXXXXXXXXXXXXXXX/////////////////////*/
 	// if none of the above condition is met we display all
 		else 
 			{
 			
-			$theresult= $mysqli->query('SELECT * FROM resolutions7  ORDER BY year, reference2') or die ('Error: ' . mysqli_error($mysqli));
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY requests.Instrument, requests.ECsession') or die ('Error: ' . mysqli_error($mysqli));
 			$nbresult = mysqli_num_rows($theresult);
 
-			echo 'No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong>';
+			echo '<div id="searchresultsstats">No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong></div>';
 			
 			}
 			
 /* ////////////  RESULTS //////////////*/			
+
+/////////////// Test variables //////////////////////////////////	
+		/*
 		
-/////////////// Test variables //////////////////////////////////		
-/*		
-if (empty($selbody)) 
+if (empty($seladdressee)) 
   	{
-    echo "<br/>Please select a body";
+    echo "<br/>Please select an addressee";
   	}
-	  else if ($selbody == 1) 
+	  else if ($seladdressee == 1) 
 		{
 		//echo '<br/> All';
 		echo '';
 		}
 	else
 		{
-		echo '<br/> '.$selbody;
+		echo '<br/> '.$seladdressee;
 		}
 	
- if (empty($selsession)) 
+ if (empty($seldeadline)) 
   	{
-    echo "<br/>Please select a Session";
-  	}
-  else 
-	{
-    echo '<br/>'.$selsession;
+    echo "<br/>Please select a deadline";
   	}
 	
+	
+  else 
+	{
+    echo '<br/>'.$seldeadline;
+  	}
+
 if (empty($selectedInstrument)) 
   	{
     echo "<br/>Please select an Instrument";
@@ -726,61 +537,26 @@ if (empty($selectedInstrument))
 	{
     echo '<br/>'.$selectedInstrument;
   	}	
-	
-if (empty($selecteddpt)) 
+		
+if (empty($selectedecs)) 
   	{
-    echo "<br/>Please select a Department";
+    echo "<br/>Please select an EC Session";
   	}
   else 
 	{
-    echo '<br/>'.$selecteddpt;
+    echo '<br/>'.$selectedecs;
   	}
 	
-if (empty($seldivision)) 
+if (empty($selectedecstat)) 
   	{
-    echo "<br/>Please select a Unit";
+    echo "<br/>Please select a Status";
   	}
   else 
 	{
-    echo '<br/>'.$seldivision;
+    echo '<br/>'.$selectedecstat;
   	}	
-	
-if (empty($selltg))	
-	{
-	echo "<br/>Please select a LTG";
-	}	
-else
-	{
-	echo '<br/>'.$selltg;
-	}
-	
-if (empty($selectedso))
-	{
-	echo "<br/>Please select a SO";
-	}
-	else
-	{
-	echo '<br/>'.$selectedso;	
-	}
-	 
-if (empty($selectedyear))
-	{
-	echo "<br/>Please select a Year";
-	}
-	else
-	{
-	echo '<br/>'.$selectedyear;	
-	}
-	
-if (empty($selectedkw))	
-	{
-	echo "<br/>Please select a KW";
-	}	
-else
-	{
-	echo '<br/>'.$selectedkw;
-	}
-*/		
+
+	*/	
 	/* ////////////  RESULTS //////////////*/		
 		
 			if(mysqli_num_rows($theresult) <> '' ) 
@@ -788,39 +564,58 @@ else
 					while ($donnees_res = mysqli_fetch_array($theresult) )
 
 						 {
-					echo
-					'<div id="details"><strong>';
-					
-					if ($donnees_res['link']!='')
-					{echo '<a href="'.htmlentities ($donnees_res['link']).'" target="_blank">'.htmlentities ($donnees_res['reference']).'</a>';}
-						else
-						{echo htmlentities ($donnees_res['reference']);	}
-					echo'</strong>&nbsp;-&nbsp;'.htmlentities ($donnees_res['title']).'&nbsp;('.($donnees_res['year']).') <br/>('.htmlentities ($donnees_res['kw1']).')'.htmlentities ($donnees_res['content']);
-						if (htmlentities ($donnees_res['status'])!='')
-						{echo '<h3>Progress</h3>'.htmlentities ($donnees_res['status']).'<br/>'; } 
-						if(htmlentities ($donnees_res['recommendation'])!='')
-						{echo '<h3>Recommendation</h3>'.htmlentities ($donnees_res['recommendation']);}
-						if(htmlentities ($donnees_res['resp1'])!='')
-						{echo '<h3>Responsible Department/Entity</h3>'.htmlentities ($donnees_res['resp1']);}
-						if(htmlentities ($donnees_res['resp2'])!='')
-						{echo '<h3>Responsible unit</h3>'.htmlentities ($donnees_res['resp2']);}
+						
+						
+							echo'<div id="details"><strong>';
 
-						else {echo '';}
+							if ($donnees_res['link']!='')
+							{
+								echo '<a href="'.htmlentities ($donnees_res['link']).'" target="_blank">'.htmlentities ($donnees_res['Instrument']).'</a>';
+							}
+								else
+								{
+									echo htmlentities ($donnees_res['Instrument']);
 
-					echo'</div>';
+
+								}
+							echo'</strong>';
+
+							echo'</strong>&nbsp;-&nbsp;'.htmlentities ($donnees_res['title']).'&nbsp;('.($donnees_res['year']).')';
+
+							echo '<h3>Addressee</h3>'.htmlentities ($donnees_res['Addressee']);
+								//if (htmlentities ($donnees_res['status'])!='')
+								//{
+									echo '<h3>Request</h3>'.htmlentities ($donnees_res['Request']).'<br/>'; 
+							//} 
+							if (htmlentities ($donnees_res['Status'])!='')
+								{
+								echo '<h3>Status</h3>'.htmlentities ($donnees_res['Status']).'<br/>'; 
+								}
+							if(htmlentities ($donnees_res['Deadline'])!='')
+								{
+									echo '<h3>Session deadline</h3>'.htmlentities ($donnees_res['Deadline']);
+								}
+							if(htmlentities ($donnees_res['Verification'])!='')
+								{
+									echo '<h3>Verification</h3>'.htmlentities ($donnees_res['Verification']);
+								}
+
+								else {echo '';}
+
+							echo'</div>';
 
 						} //End While
 
-			}  //End if
-		else
-			{echo 'Sorry there is no entry for your request';}	
+					}  //End if
+				else
+					{echo 'Sorry there is no entry for your request';}	
 
 ?>	
 		</div> <!-- results -->
 	</div> <!-- Wrapper -->
 <?php 
 
-	$mysqli -> close();// deconnexion 
+	$mysqli -> close();// deconnexion New way
 
 ?>
 </body>
