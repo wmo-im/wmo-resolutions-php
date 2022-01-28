@@ -10,7 +10,7 @@ include('inc/resconnect.php');
 	
 <link href="css/resolutions.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="css/print.css" rel="stylesheet" type="text/css"  media="print" />	
-
+<!--26.01.2022 -->
 </head>
 
 <body>
@@ -96,11 +96,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	//////////// Queries to feed Session from Body /////////////////////
 	if (isset($selbody) && $selbody !='All' && $selbody !='') // A specific body is selected
 		{
-		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 WHERE body =\''.$selbody.'\' ORDER BY session ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 WHERE body =\''.$selbody.'\' ORDER BY CAST(session as unsigned)  ASC') or die ('Error: ' . mysqli_error($mysqli));
+		 
 		}
 	else
 		{
-		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 ORDER BY session ASC') or die ('Error: ' . mysqli_error($mysqli));
+		$sess= $mysqli->query('SELECT distinct session FROM resolutions7 ORDER BY CAST(session as unsigned)ASC') or die ('Error: ' . mysqli_error($mysqli));
 	 	//echo '<br/>Body session not set<br/>';
 	
 		}
