@@ -249,241 +249,241 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		
 		//////////// Addressee////////////////////////
 	// Only Addressee is selected and is != from All
-	 if ($seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 &&  ($seldeadline =='' || $seldeadline =='All'|| $seldeadline == 1) &&  ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+	if ($seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 &&  ($seldeadline =='' || $seldeadline =='All'|| $seldeadline == 1) &&  ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 	
-		{
-		/* Test*/
-		 $theresult= $mysqli->query('SELECT requests.Addressee, requests.Instrument, requests.ECsession, requests.Request, requests.Deadline, requests.Status,requests.Verification,
-		 resolutions7.link ,resolutions7.title, resolutions7.year
-		 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') or die ('Error: ' . mysqli_error($mysqli));//
-		 
-		 
-		/* works 25-11-2021 $theresult= $mysqli->query('SELECT * FROM requests  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') 
-			or die ('Error: ' . mysqli_error($mysqli));*/
+	{
+	/* Test*/
+	 $theresult= $mysqli->query('SELECT requests.Addressee, requests.Instrument, requests.ECsession, requests.Request, requests.Deadline, requests.Status,requests.Verification,
+	 resolutions7.link ,resolutions7.title, resolutions7.year
+	 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession ASC')  or die ('Error: ' . mysqli_error($mysqli));//
+	 
+	 
+	/* works 25-11-2021 $theresult= $mysqli->query('SELECT * FROM requests  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') 
+		or die ('Error: ' . mysqli_error($mysqli));*/
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-	// Only Addressee  is selected and is == All !!! All other variables should be set to ''
-	else if ($seladdressee!=''  && ($seladdressee=='All' || $seladdressee== 1) && $seldeadline ==''  && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
-	
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee !=\'\'   ORDER BY requests.Instrument') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-			if ($seladdressee== 1 &&  ($seldeadline =='' || $seldeadline =='All') &&  ($selectedInstrument =='' || $selectedInstrument =='All') )
-			{
-			echo '<div id="searchresultsstats">Selected Addressee : <strong> All</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-			else
-			{echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong><br/>
-			<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';	}
+	echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 		}
-	// Only Deadline is selected and is != from All
-	else if ($seldeadline !='' && $seldeadline !='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
-	
+// Only Addressee  is selected and is == All !!! All other variables should be set to ''
+else if ($seladdressee!=''  && ($seladdressee=='All' || $seladdressee== 1) && $seldeadline ==''  && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee !=\'\'   ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+		if ($seladdressee== 1 &&  ($seldeadline =='' || $seldeadline =='All') &&  ($selectedInstrument =='' || $selectedInstrument =='All') )
 		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline =\''.$seldeadline.'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong> <br/>
+		echo '<div id="searchresultsstats">Selected Addressee : <strong> All</strong><br/>
 		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}	
-		
-	// Only deadline is selected and is == from All
-	else if ($seldeadline !='' && $seldeadline =='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+		}
+		else
+		{echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong><br/>
+		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';	}
+	}
+// Only Deadline is selected and is != from All
+else if ($seldeadline !='' && $seldeadline !='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline =\''.$seldeadline.'\'   ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}	
 	
+// Only deadline is selected and is == from All
+else if ($seldeadline !='' && $seldeadline =='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline !=\'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected Deadline: <strong> All</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}
+
+// Only Instrument is selected and is != from All
+else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
+
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}	
+	
+	// Only Instrument is selected and is == to All
+else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Instrument !=\'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}
+	
+// Addressee and Deadline are selected and are different from All 	
+else if ($seladdressee!='' && $seladdressee!='All' && $seldeadline !=''  && $seldeadline !='All' && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
+
 		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline !=\'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Deadline =\''.$seldeadline.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected Deadline: <strong> All</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-
-	// Only Instrument is selected and is != from All
-	else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
+	echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong><br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}	
 	
+// Addressee and Instrument are selected and are different from All	
+else if ($seladdressee!='' && $seladdressee!='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
+
 		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}	
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 		
-		// Only Instrument is selected and is == to All
-	else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
-	
+	echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}		
+// Deadline and Instrument are selected and are different from All	
+else if ($seldeadline !='' && $seldeadline !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
+
 		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Instrument !=\'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-		
-	// Addressee and Deadline are selected and are different from All 	
-	else if ($seladdressee!='' && $seladdressee!='All' && $seldeadline !=''  && $seldeadline !='All' && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
-	
-			{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Deadline =\''.$seldeadline.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+	echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}		
 
-			or die ('Error: ' . mysqli_error($mysqli));
+// Addressee, deadline and instrument are selected and are different from All	
+else if ($selectedInstrument !='' && $selectedInstrument !='All' && $seldeadline !=''  && $seldeadline !='All' && $seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
 
-		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong><br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}	
-		
-	// Addressee and Instrument are selected and are different from All	
-	else if ($seladdressee!='' && $seladdressee!='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
-	
-			{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+	echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}
 			
-		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}		
-	// Deadline and Instrument are selected and are different from All	
-	else if ($seldeadline !='' && $seldeadline !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
-	
-			{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo '<div id="searchresultsstats">Selected Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}		
-
-	// Addressee, deadline and instrument are selected and are different from All	
-	else if ($selectedInstrument !='' && $selectedInstrument !='All' && $seldeadline !=''  && $seldeadline !='All' && $seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
-	
-			{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'   ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
-
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo '<div id="searchresultsstats">Selected Addressee : <strong>'.$seladdressee.'</strong> - Deadline: <strong>'.$seldeadline.'</strong>  - Instrument: <strong>'.$selectedInstrument.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-				
 /* //////////// EC Session and status //////////////*/	
-		
-	/*	
-		$selectedecs 
-	$selectedecstat
 	
-	*/
-		
-	//Only EC Session is selected and != ALL or Status = All or''
-	else if ($selectedecs !='' && $selectedecs !='All'  && ($selectedecstat =='' || $selectedecstat =='All') )
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.ECsession =\''.$selectedecs.'\'    ORDER BY requests.Instrument, requests.ECsession') //or die (mysql_error());
+/*	
+	$selectedecs 
+$selectedecstat
 
-			or die ('Error: ' . mysqli_error($mysqli));
-
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
-
-		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
+*/
 	
-	//Only EC Session is selected and == ALL
-	else if ($selectedecs !='' && $selectedecs =='All'  && ($selectedecstat =='' || $selectedecstat =='All'))
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.ECsession  !=\'\' ORDER requests.ECsession') //or die (mysql_error());
+//Only EC Session is selected and != ALL or Status = All or''
+else if ($selectedecs !='' && $selectedecs !='All'  && ($selectedecstat =='' || $selectedecstat =='All') )
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.ECsession =\''.$selectedecs.'\'    ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/>
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}	
-	
-	//Only Status is selected and != ALL	
-	
+	echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/> 
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}
+
+//Only EC Session is selected and == ALL
+else if ($selectedecs !='' && $selectedecs =='All'  && ($selectedecstat =='' || $selectedecstat =='All'))
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.ECsession  !=\'\' ORDER by requests.ECsession') //or die (mysql_error());
+
+		or die ('Error: ' . mysqli_error($mysqli));
+
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> <br/>
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}	
+
+//Only Status is selected and != ALL	
+
 else if ($selectedecstat !='' && $selectedecstat !='All' && ($selectedecs =='' || $selectedecs =='All') )
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status =\''.$selectedecstat.'\'   ORDER BY requests.Instrument') 
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status =\''.$selectedecstat.'\'   ORDER BY CAST(requests.Instrument as signed)') 
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}
-		
+	echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}
+	
 //Only Status is selected and == ALL		
 
 else if ($selectedecstat !='' && $selectedecstat =='All' && ($selectedecs =='' || $selectedecs =='All'))
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status !=\'\'  ORDER BY requests.Instrument') 
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status !=\'\'  ORDER BY CAST(requests.Instrument as signed)') 
 
-			or die ('Error: ' . mysqli_error($mysqli));
+		or die ('Error: ' . mysqli_error($mysqli));
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
 
-		echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}		
-	
-	// EC Session is selected and Statusis selected and are != All
-	else if ($selectedecs !='' && $selectedecs !='All' && $selectedecstat !='' && $selectedecstat !='All')
-		{
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE requests.ECsession =\''.$selectedecs.'\'  AND requests.Status =\''.$selectedecstat.'\' ORDER BY requests.Instrument') //or die (mysql_error());
+	echo '<div id="searchresultsstats">Selected Status : <strong>'.$selectedecstat.'</strong> <br/> 
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}		
 
-			or die ('Error: ' . mysqli_error($mysqli));
+// EC Session is selected and Statusis selected and are != All
+else if ($selectedecs !='' && $selectedecs !='All' && $selectedecstat !='' && $selectedecstat !='All')
+	{
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE requests.ECsession =\''.$selectedecs.'\'  AND requests.Status =\''.$selectedecstat.'\' ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
 
-			// Count number of results of my query
-			$nbresult = mysqli_num_rows($theresult);
+		or die ('Error: ' . mysqli_error($mysqli));
 
-		echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> - Status : <strong>'.$selectedecstat.'</strong> <br/> 
-		<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
-			}		
+		// Count number of results of my query
+		$nbresult = mysqli_num_rows($theresult);
+
+	echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> - Status : <strong>'.$selectedecstat.'</strong> <br/> 
+	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
+		}		
 	
 			
 			
