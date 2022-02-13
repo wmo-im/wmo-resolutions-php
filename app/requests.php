@@ -494,7 +494,7 @@ else if ($selectedecstat !='' && $selectedecstat =='All' && ($selectedecs =='' |
 			
 			/* - Original 26-01-2022 - $theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY requests.Instrument, requests.ECsession') or die ('Error: ' . mysqli_error($mysqli));
 			$nbresult = mysqli_num_rows($theresult);*/
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY CAST(requests.Instrument as unsigned)') or die ('Error: ' . mysqli_error($mysqli));
+			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY CAST(requests.Instrument as signed)') or die ('Error: ' . mysqli_error($mysqli));
 			$nbresult = mysqli_num_rows($theresult);
 
 			echo '<div id="searchresultsstats">No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong></div>';
