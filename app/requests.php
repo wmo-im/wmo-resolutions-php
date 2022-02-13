@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	/* Test*/
 	 $theresult= $mysqli->query('SELECT requests.Addressee, requests.Instrument, requests.ECsession, requests.Request, requests.Deadline, requests.Status,requests.Verification,
 	 resolutions7.link ,resolutions7.title, resolutions7.year
-	 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession ASC')  or die ('Error: ' . mysqli_error($mysqli));//
+	 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY CAST(requests.Instrument as signed)')  or die ('Error: ' . mysqli_error($mysqli));//
 	 
 	 
 	/* works 25-11-2021 $theresult= $mysqli->query('SELECT * FROM requests  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') 
