@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	/* Test*/
 	 $theresult= $mysqli->query('SELECT requests.Addressee, requests.Instrument, requests.ECsession, requests.Request, requests.Deadline, requests.Status,requests.Verification,
 	 resolutions7.link ,resolutions7.title, resolutions7.year
-	 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY CAST(requests.Instrument as signed)')  or die ('Error: ' . mysqli_error($mysqli));//
+	 FROM requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER by requests.Instrument2')  or die ('Error: ' . mysqli_error($mysqli));//
 	 
 	 
 	/* works 25-11-2021 $theresult= $mysqli->query('SELECT * FROM requests  WHERE  requests.Addressee =\''.$seladdressee.'\'  ORDER BY requests.Instrument') 
@@ -271,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 else if ($seladdressee!=''  && ($seladdressee=='All' || $seladdressee== 1) && $seldeadline ==''  && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee !=\'\'   ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee !=\'\'   ORDER BY requests.Instrument2') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -290,7 +290,7 @@ else if ($seladdressee!=''  && ($seladdressee=='All' || $seladdressee== 1) && $s
 else if ($seldeadline !='' && $seldeadline !='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline =\''.$seldeadline.'\'   ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline =\''.$seldeadline.'\'   ORDER BY requests.Instrument2') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -305,7 +305,7 @@ else if ($seldeadline !='' && $seldeadline !='All' &&  ($seladdressee=='' || $se
 else if ($seldeadline !='' && $seldeadline =='All' &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedInstrument =='' || $selectedInstrument =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline !=\'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Deadline !=\'\'   ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -320,7 +320,7 @@ else if ($seldeadline !='' && $seldeadline =='All' &&  ($seladdressee=='' || $se
 else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -335,7 +335,7 @@ else if ($selectedInstrument !='' && $selectedInstrument !='All' && ($seldeadlin
 else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($seldeadline =='' || $seldeadline =='All') &&  ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Instrument !=\'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Instrument !=\'\'   ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -350,7 +350,7 @@ else if ($selectedInstrument !='' && $selectedInstrument =='All' && ($seldeadlin
 else if ($seladdressee!='' && $seladdressee!='All' && $seldeadline !=''  && $seldeadline !='All' && $selectedInstrument =='' && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 
 		{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Deadline =\''.$seldeadline.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Deadline =\''.$seldeadline.'\'  ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -365,7 +365,7 @@ else if ($seladdressee!='' && $seladdressee!='All' && $seldeadline !=''  && $sel
 else if ($seladdressee!='' && $seladdressee!='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seldeadline =='' || $seldeadline =='All') && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 		{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -379,7 +379,7 @@ else if ($seladdressee!='' && $seladdressee!='All' && $selectedInstrument !=''  
 else if ($seldeadline !='' && $seldeadline !='All' && $selectedInstrument !=''  && $selectedInstrument !='All' && ($seladdressee=='' || $seladdressee=='All' || $seladdressee== 1) && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All'))	
 
 		{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.Deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'  ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -394,7 +394,7 @@ else if ($seldeadline !='' && $seldeadline !='All' && $selectedInstrument !=''  
 else if ($selectedInstrument !='' && $selectedInstrument !='All' && $seldeadline !=''  && $seldeadline !='All' && $seladdressee!=''  && $seladdressee!='All' && $seladdressee<> 1 && ($selectedecs =='' || $selectedecs =='All') && ($selectedecstat =='' || $selectedecstat =='All') )	
 
 		{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'   ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Addressee =\''.$seladdressee.'\' AND requests.deadline =\''.$seldeadline.'\' AND requests.Instrument =\''.$selectedInstrument.'\'   ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -416,7 +416,7 @@ $selectedecstat
 //Only EC Session is selected and != ALL or Status = All or''
 else if ($selectedecs !='' && $selectedecs !='All'  && ($selectedecstat =='' || $selectedecstat =='All') )
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.ECsession =\''.$selectedecs.'\'    ORDER BY CAST(requests.Instrument as signed), requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.ECsession =\''.$selectedecs.'\'    ORDER BY requests.Instrument2, requests.ECsession') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -430,7 +430,7 @@ else if ($selectedecs !='' && $selectedecs !='All'  && ($selectedecstat =='' || 
 //Only EC Session is selected and == ALL
 else if ($selectedecs !='' && $selectedecs =='All'  && ($selectedecstat =='' || $selectedecstat =='All'))
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.ECsession  !=\'\' ORDER by requests.ECsession') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference WHERE  requests.ECsession  !=\'\' ORDER by requests.Instrument2') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -445,7 +445,7 @@ else if ($selectedecs !='' && $selectedecs =='All'  && ($selectedecstat =='' || 
 
 else if ($selectedecstat !='' && $selectedecstat !='All' && ($selectedecs =='' || $selectedecs =='All') )
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status =\''.$selectedecstat.'\'   ORDER BY CAST(requests.Instrument as signed)') 
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status =\''.$selectedecstat.'\'   ORDER BY requests.Instrument2') 
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -460,7 +460,7 @@ else if ($selectedecstat !='' && $selectedecstat !='All' && ($selectedecs =='' |
 
 else if ($selectedecstat !='' && $selectedecstat =='All' && ($selectedecs =='' || $selectedecs =='All'))
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status !=\'\'  ORDER BY CAST(requests.Instrument as signed)') 
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE  requests.Status !=\'\'  ORDER BY requests.Instrument2') 
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -474,7 +474,7 @@ else if ($selectedecstat !='' && $selectedecstat =='All' && ($selectedecs =='' |
 // EC Session is selected and Statusis selected and are != All
 else if ($selectedecs !='' && $selectedecs !='All' && $selectedecstat !='' && $selectedecstat !='All')
 	{
-		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE requests.ECsession =\''.$selectedecs.'\'  AND requests.Status =\''.$selectedecstat.'\' ORDER BY CAST(requests.Instrument as signed)') //or die (mysql_error());
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference  WHERE requests.ECsession =\''.$selectedecs.'\'  AND requests.Status =\''.$selectedecstat.'\' ORDER BY requests.Instrument2') //or die (mysql_error());
 
 		or die ('Error: ' . mysqli_error($mysqli));
 
@@ -484,22 +484,21 @@ else if ($selectedecs !='' && $selectedecs !='All' && $selectedecstat !='' && $s
 	echo '<div id="searchresultsstats">Selected EC Session : <strong>'.$selectedecs.'</strong> - Status : <strong>'.$selectedecstat.'</strong> <br/> 
 	<span style="color:#FF0000;">Number of entries: '.$nbresult.'</span><br/></div>';				
 		}		
-	
-			
-			
-///////////////////XXXXXXXXXXXXXXXX/////////////////////*/
-	// if none of the above condition is met we display all
-		else 
-			{
-			
-			/* - Original 26-01-2022 - $theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY requests.Instrument, requests.ECsession') or die ('Error: ' . mysqli_error($mysqli));
-			$nbresult = mysqli_num_rows($theresult);*/
-			$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY CAST(requests.Instrument as signed)') or die ('Error: ' . mysqli_error($mysqli));
-			$nbresult = mysqli_num_rows($theresult);
 
-			echo '<div id="searchresultsstats">No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong></div>';
-			
-			}
+		
+		
+///////////////////XXXXXXXXXXXXXXXX/////////////////////*/
+// if none of the above condition is met we display all
+	else 
+		{
+		
+		/*$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY requests.Instrument, requests.ECsession') or die ('Error: ' . mysqli_error($mysqli));
+		$nbresult = mysqli_num_rows($theresult);*/
+		$theresult= $mysqli->query('SELECT * from requests INNER JOIN resolutions7 on requests.Instrument = resolutions7.reference ORDER BY requests.Instrument2') or die ('Error: ' . mysqli_error($mysqli));
+		$nbresult = mysqli_num_rows($theresult);
+		echo '<div id="searchresultsstats">No selection <br/> Total entries:&nbsp;<strong>'.$nbresult.'</strong></div>';
+		
+		}
 			
 /* ////////////  RESULTS //////////////*/			
 
