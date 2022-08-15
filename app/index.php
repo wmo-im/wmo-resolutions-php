@@ -62,10 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		<p><a href="requests.php">>> Requests made by Congress as from Cg-Ext(2021) and the Executive Council as from EC-73</a></p>
 		<?php $updatedate= $mysqli->query('SELECT distinct dateupdate FROM updated where page ="Resolution"') or die ('Error: ' . mysqli_error($mysqli));
 		while ($updatedated = mysqli_fetch_array($updatedate))
-						{
-			
-			echo 'Last update:&nbsp;'. $updatedated['dateupdate'];
-		}
+			{
+				echo '<em>Last update:&nbsp;'. $updatedated['dateupdate'].'</em>';
+			}
 		?>
 	</div>
 	<div id="search">
