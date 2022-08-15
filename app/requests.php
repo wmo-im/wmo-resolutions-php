@@ -41,6 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	</div>
 	<div id="nav">
 	<p><a href="index.php"> >> WMO Congress, Executive Council, Regional Associations and Technical Commissions Resolutions, Decisions and Recommendations in force</a></p>
+	<?php $updatedate= $mysqli->query('SELECT distinct DATE_FORMAT(dateupdate , "%e %M %Y") FROM updated where page ="Request"') or die ('Error: ' . mysqli_error($mysqli));
+		while ($updatedated = mysqli_fetch_array($updatedate))
+			{		
+			//echo '<em>Last update:&nbsp;'. $updatedated['dateupdate'].'</em>';
+			echo '<em>Last update:&nbsp;'. $updatedated['DATE_FORMAT(dateupdate , "%e %M %Y")'].'</em>';
+		}
+		?>
 	</div>
 	<div id="search">
 	<div id="part1">
