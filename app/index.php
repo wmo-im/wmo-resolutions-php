@@ -60,8 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	</div>
 	<div id="nav">
 		<p><a href="requests.php">>> Requests made by Congress as from Cg-Ext(2021) and the Executive Council as from EC-73</a></p>
-		<?php $updatedate= $mysqli->query('SELECT dateupdate FROM updated where page ="Resolution"') or die ('Error: ' . mysqli_error($mysqli)); ?>
-		<p>Last update:<?php echo $updatedate;?> </p>
+		<?php $updatedate= $mysqli->query('SELECT distinct dateupdate FROM updated where page ="Resolution"') or die ('Error: ' . mysqli_error($mysqli));
+		while ($updatedated = mysqli_fetch_array($updatedate))
+						{
+			
+			echo 'Last update:&nbsp;'. $updatedated['dateupdate'];
+		}
+		?>
 	</div>
 	<div id="search">
 	<div id="part1">
